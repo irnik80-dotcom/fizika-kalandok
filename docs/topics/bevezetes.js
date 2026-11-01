@@ -19,9 +19,41 @@ var FIG = {
     SV.t(185,28,'100 °C: a víz forr',12,'start')+SV.t(185,132,'0 °C: a jég olvad',12,'start')+SV.t(185,80,'20 °C: szobahőmérséklet',12,'start')+SV.t(30,80,'hőmérő',13,'start'))
 };
 
+var row = SV.row, mini = SV.mini, grid = SV.grid;
+
 window.LESSON = {
   id:'bevezetes',
   screens:[
+  /* ================= VÁZLAT ================= */
+  { type:'sheet', section:'Vázlat', title:'Mérés, sűrűség – vázlat', sub:'Fizika 7. · I. fejezet · 1. oldal', cards:[
+    { n:1, c:1, title:'A mérés',
+      html:row(FIG.measure,'<p>Mérni annyit jelent, hogy <b>összehasonlítunk</b>: a mérendő dolgot az <b>egységnyinek</b> választott mennyiséggel.</p><p>A mérés eredménye a <b>mennyiség</b>. Mindig két részből áll: <b>számérték</b> + <b>mértékegység</b>.</p>'),
+      note:'Mértékegység nélkül a szám nem jelent semmit! Ha ceruzával mérsz, mindenkinél más az eredmény – ezért kell közös egység, mint a méter.' },
+    { n:2, c:2, title:'Hosszúság, terület, térfogat',
+      html:row(FIG.area,'<p>A <b>hosszúságot</b> közvetlenül mérjük. Jele: l, mértékegysége <b>m</b>.</p><p>A terület és a térfogat <b>közvetett mérés</b>: a hosszúságokból számoljuk ki.</p>')+grid(
+        mini('⬜ Terület (T)','Téglalap: <b>T = a · b</b><br>Háromszög: <b>T = a · m : 2</b><br>Mértékegysége: <b>m²</b><br><small>1 m² = 10 000 cm²</small>'),
+        mini('🧊 Térfogat (V)','Téglatest: <b>V = a · b · c</b><br>Mértékegysége: <b>m³</b><br><small>1 dm³ = 1 liter</small>')) },
+    { n:3, c:3, title:'Tömeg és sűrűség',
+      html:row(FIG.density,'<p><b>Tömeg</b> (m): mennyi anyag van a testben. Mértékegysége: kg, g (1 kg = 1000 g). A Holdon is ugyanannyi.</p><p><b>Sűrűség</b> (ρ, „ró”): mekkora a tömege a térfogatához képest.</p><p class="sh-formula">ρ = m : V</p>')+grid(
+        mini('🧮 Példa','200 g tömegű test, térfogata 50 cm³ → ρ = 200 : 50 = <b>4 g/cm³</b>'),
+        mini('💧 A víz','sűrűsége <b>1 g/cm³</b> = 1000 kg/m³. 4 °C-on a legnagyobb a sűrűsége.')),
+      note:'Ami sűrűbb a víznél (vas, kő), elmerül. Ami kevésbé sűrű (fa, olaj), úszik.' }
+  ]},
+
+  { type:'sheet', section:'Vázlat', title:'Idő és hőmérséklet – vázlat', sub:'Fizika 7. · I. fejezet · 2. oldal', cards:[
+    { n:4, c:4, title:'Az idő mérése',
+      html:row(FIG.time,'<p>Az idő jele <b>t</b>, mértékegysége a <b>másodperc</b> (s).</p><p>Az időt mindig <b>ismétlődő mozgással</b> mérjük: a Nap látszólagos mozgása, az évszakok váltakozása, az ingaóra lengése.</p>')+grid(
+        mini('🔢 Átváltások','1 perc = 60 s<br>1 óra = 60 perc = 3600 s<br>1 nap = 24 óra<br>1 év = 365 nap = 12 hónap')),
+      note:'Számolásnál mindig váltsd át az időt másodpercre! Pl. 2 perc = 120 s.' },
+    { n:5, c:5, title:'A hőmérséklet mérése',
+      html:row(FIG.temp,'<p>A hőmérsékletet <b>hőmérővel</b> mérjük. Jele: <b>T</b>.</p><p>Celsius két ismert pontot használt:</p><p><b>0 °C</b>: a jég olvadása<br><b>100 °C</b>: a víz forrása</p>')+grid(
+        mini('🌡️ Mértékegységek','Celsius-fok (<b>°C</b>), kelvin (<b>K</b>), Fahrenheit-fok (<b>°F</b>). Nálunk a °C használatos.')),
+      note:'A Celsius-skála a két alappont között 100 egyenlő részre van osztva.' },
+    { n:6, c:6, title:'Összefoglaló táblázat',
+      html:'<table class="sh-tbl"><tr><th>Mennyiség</th><th>Jele</th><th>Egysége</th></tr><tr><td>hosszúság</td><td><b>l</b></td><td>m</td></tr><tr><td>terület</td><td><b>T</b></td><td>m²</td></tr><tr><td>térfogat</td><td><b>V</b></td><td>m³, dm³ = liter</td></tr><tr><td>tömeg</td><td><b>m</b></td><td>kg, g</td></tr><tr><td>sűrűség</td><td><b>ρ</b></td><td>g/cm³, kg/m³</td></tr><tr><td>idő</td><td><b>t</b></td><td>s, perc, óra</td></tr><tr><td>hőmérséklet</td><td><b>T</b></td><td>°C, K</td></tr></table>',
+      note:'Dolgozat előtt ezt a táblázatot tudd fejből: jel és mértékegység együtt!' }
+  ]},
+
   { type:'info', section:'Tanulás', icon:'📏', title:'A mérés', fig:FIG.measure,
     body:'<p>Mérni annyit jelent, hogy <mark class="k">összehasonlítunk</mark>. A mérendő dolgot összehasonlítjuk az <b>egységnyinek</b> választott mennyiséggel.</p><p>Ha a távolugró ugrása 7 méter, az azt jelenti, hogy a táv <b>hétszer akkora</b>, mint az 1 méter.</p><p>A mérés eredménye a <mark class="k">mennyiség</mark>. Mindig két részből áll:</p><ul><li>a <b>számértékből</b> (pl. 17),</li><li>és a <b>mértékegységből</b> (pl. m).</li></ul><p>Mértékegység nélkül a szám nem jelent semmit!</p>',
     mc:'<p>Ha ceruzával mérsz, az 17 ceruzányi lehet. De ez nem egyértelmű, mert mindenkinek más hosszú a ceruzája. Ezért használunk közös mértékegységet, mint a <b>méter</b>.</p>',

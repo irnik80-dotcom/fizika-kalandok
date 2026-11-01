@@ -37,9 +37,51 @@ var FIG = {
   colors: SV.boxes('A fehér fény színei',[['vörös','#d6403f'],['narancs','#f08a24'],['sárga','#f2c230'],['zöld','#6bb52e'],['kék','#2f7fd1'],['ibolya','#7a3bbd']],'a vörösnek a legnagyobb, az ibolyának a legkisebb a hullámhossza')
 };
 
+var row = SV.row, mini = SV.mini, grid = SV.grid;
+
 window.LESSON = {
   id:'feny',
   screens:[
+  /* ================= VÁZLAT ================= */
+  { type:'sheet', section:'Vázlat', title:'Fény és tükrök – vázlat', sub:'Fizika 7. · VII. fejezet · 1. oldal', cards:[
+    { n:1, c:1, title:'Fényforrások és árnyék',
+      html:row(FIG.shadow,'<p>A fény egy adott anyagban <b>egyenes vonalban terjed</b>. Átlátszatlan tárgy mögött <b>árnyék</b> keletkezik.</p>')+grid(
+        mini('☀️ Elsődleges fényforrás','Maga világít: Nap, lámpa, tűz.'),
+        mini('🌙 Másodlagos fényforrás','Csak visszaveri a fényt: Hold, tükör, fal.')) },
+    { n:2, c:2, title:'A fény visszaverődése',
+      html:row(FIG.reflect,'<p>A fénysugár új közeg határán <b>visszaverődik</b>.</p><p class="sh-formula">α = α’</p><p>A <b>beesési szög</b> egyenlő a <b>visszaverődési szöggel</b>. A beeső sugár, a visszavert sugár és a beesési merőleges egy síkban van.</p>'),
+      note:'Sima felületről (tükör) rendezetten, érdes felületről szórtan verődik vissza a fény – ezért látjuk a tárgyakat minden irányból.' },
+    { n:3, c:3, title:'A síktükör képe',
+      html:row(FIG.mirror,'<p>A síktükörrel előállított kép:</p><p>• <b>azonos nagyságú</b> a tárggyal<br>• <b>ugyanolyan messze</b> van a tükör mögött, mint a tárgy előtte<br>• mindig <b>látszólagos</b></p>'),
+      note:'A tükör felcseréli a jobb és bal oldalt: ha a jobb kezed emeled, a képed bal keze emelkedik.' },
+    { n:4, c:4, title:'Gömbtükör',
+      html:row(FIG.curve,'<p>Kétféle gömbtükör van: <b>homorú</b> és <b>domború</b>.</p>')+grid(
+        mini('🥄 Homorú','Valódi <b>és</b> látszólagos képet is előállíthat. Pl. borotválkozótükör.'),
+        mini('🥄 Domború','<b>Csak látszólagos</b>, kicsinyített képet ad. Pl. autó külső tükre.'))+'<p style="margin-top:10px">A kép tulajdonságai: <b>valódi</b> (tükör előtt) vagy <b>látszólagos</b> (tükör mögött) · <b>egyenes</b> vagy <b>fordított</b> · <b>nagyított</b> vagy <b>kicsinyített</b>.</p>' }
+  ]},
+
+  { type:'sheet', section:'Vázlat', title:'Fénytörés, lencsék, szem', sub:'Fizika 7. · VII. fejezet · 2. oldal', cards:[
+    { n:5, c:5, title:'Fénytörés',
+      html:row(FIG.refract,'<p>Ha a fény két átlátszó közeg határához érkezik: egy része <b>visszaverődik</b>, másik része <b>megtörik</b>, és behatol a második közegbe.</p><p>A <b>törési szög (β)</b> kisebb, ha a fény <b>levegőből vízbe vagy üvegbe</b> megy; nagyobb, ha vízből vagy üvegből a levegőbe lép.</p>'),
+      note:'Nagyobb beesési szöghöz nagyobb törési szög tartozik. Ezért tűnik megtörtnek a vízbe tett bot.' },
+    { n:6, c:1, title:'Prizma és a színek',
+      html:row(FIG.prism,'<p>A <b>prizma</b> átlátszó, síkfelületekkel határolt. A fénysugár <b>kétszer törik meg</b>, és a vastagabb vége felé tér el.</p><p>A <b>fehér fény összetett</b>: vörös, narancs, sárga, zöld, kék, ibolya. A prizma szétbontja: ez a színkép.</p>')+row(FIG.colors,'<p>A vörösnek a legnagyobb, az ibolyának a legkisebb a hullámhossza.</p>') },
+    { n:7, c:2, title:'Lencsék',
+      html:row(FIG.lens,'<p>Az optikai lencse átlátszó anyagból készül, felületét gömbfelületdarabok határolják.</p>')+grid(
+        mini('🔍 Gyűjtőlencse','<b>Középen vastagabb</b>, pozitív dioptria. Fókuszon kívüli tárgyról <b>valódi</b>, belüli tárgyról <b>látszólagos</b> képet ad.'),
+        mini('🔎 Szórólencse','<b>Szélén vastagabb</b>, negatív dioptria. <b>Mindig látszólagos</b> képet ad.')),
+      note:'A dioptria a lencse erőssége: D = 1 : f (f a fókusztávolság méterben).' },
+    { n:8, c:3, title:'A látás',
+      html:row(FIG.eye,'<p>A fény a <b>pupillán</b> át jut be. A <b>szemlencse</b> az <b>ideghártyán</b> kicsinyített, fordított, valódi képet állít elő. A pupilla szabályozza a fény mennyiségét.</p>')+grid(
+        mini('👓 Rövidlátás','<b>Szórólencsés</b> szemüveggel javítjuk.'),
+        mini('👓 Távollátás','<b>Gyűjtőlencsés</b> szemüveggel javítjuk.')),
+      note:'Az agyunk „visszafordítja” a fordított képet, ezért látunk mégis egyenesen.' },
+    { n:9, c:6, title:'Optikai eszközök és a fény sebessége',
+      html:grid(
+        mini('🔭 Eszközök','nagyító, szemüveg, fényképezőgép, mikroszkóp, távcső'),
+        mini('⚡ Fény sebessége','Kb. <b>300 000 km/s</b>. Ezért ér a Napból kb. 8 perc alatt a Földre.')) }
+  ]},
+
   { type:'info', section:'Tanulás', icon:'💡', title:'A fény és az árnyék', fig:FIG.shadow,
     body:'<p>Honnan jön a fény? Kétféle fényforrás van:</p><ul><li><mark class="k">Elsődleges</mark> fényforrás: <b>maga világít</b> (Nap, lámpa, tűz, fáklya).</li><li><mark class="k">Másodlagos</mark> fényforrás: <b>csak visszaveri</b> a fényt (Hold, tükör, fal, könyv).</li></ul><p>A fény egy adott anyagban <mark class="k">egyenes vonalban terjed</mark>. Ha a fénysugár útjába <b>átlátszatlan tárgyat</b> teszünk, <b>árnyék</b> keletkezik.</p>',
     mc:'<p>A fáklya elsődleges fényforrás: ő világít. A fáklyától megvilágított blokk másodlagos: csak visszaveri a fényt.</p>',

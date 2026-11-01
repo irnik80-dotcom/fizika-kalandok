@@ -23,7 +23,7 @@ var FIG = {
     '<circle cx="110" cy="80" r="50" fill="none" stroke="#8b8f87" stroke-width="3" stroke-dasharray="6 5"/>'+SV.r(148,60,24,24,'#ffd23f')+
     SV.arrow(160,110,160,'#2f7fd1').replace(/.*/,'')+
     '<line x1="160" y1="72" x2="160" y2="20" stroke="#2f7fd1" stroke-width="5"/><polygon points="160,12 150,30 170,30" fill="#2f7fd1"/>'+SV.t(215,38,'v (érintő irányú)',12,'start')+
-    SV.t(215,90,'ha elengeded,',12,'start')+SV.t(215,106,'egyenesen repül tovább',12,'start')),
+    SV.t(215,90,'elengedve:',12,'start')+SV.t(215,106,'repül tovább',12,'start')),
   pendulum: SV.svg('Inga: a lengésidő csak a fonal hosszától függ',
     '<line x1="120" y1="15" x2="200" y2="15" stroke="currentColor" stroke-width="5"/><line x1="160" y1="15" x2="160" y2="105" stroke="#8b8f87" stroke-width="3"/><circle cx="160" cy="115" r="12" fill="#d6403f" stroke="#1b2618" stroke-width="3"/>'+
     '<line x1="160" y1="15" x2="95" y2="95" stroke="#8b8f87" stroke-width="2" stroke-dasharray="5 4"/><circle cx="90" cy="103" r="10" fill="none" stroke="#d6403f" stroke-width="2" stroke-dasharray="4 3"/>'+
@@ -43,9 +43,52 @@ var FIG = {
 };
 FIG.circle = FIG.circle.replace(/<line x1="160" y1="110"[^>]*>/,'');
 
+var row = SV.row, mini = SV.mini, grid = SV.grid;
+
 window.LESSON = {
   id:'lendulet',
   screens:[
+  /* ================= VÁZLAT ================= */
+  { type:'sheet', section:'Vázlat', title:'Lendület és körmozgás – vázlat', sub:'Fizika 7. · IV. fejezet · 1. oldal', cards:[
+    { n:1, c:1, title:'Alakváltozás ütközéskor',
+      html:row(FIG.elastic,'<p>Ütközéskor a testek alakja megváltozik.</p>')+grid(
+        mini('🏀 Rugalmas','Az erő megszűnése után <b>visszanyeri az alakját</b>. Pl. gumilabda, trambulin, rugó, teniszütő húrja.'),
+        mini('🧱 Rugalmatlan','Az alakja <b>maradandóan megváltozik</b>. Pl. leejtett gyurma, leesett barack, összetört autó eleje.')),
+      note:'Az autó eleje szándékosan rugalmatlan („gyűrődő zóna”): a mozgási energiát elnyeli, így az utasok kisebb ütést kapnak.' },
+    { n:2, c:2, title:'Newton III. törvénye – hatás és ellenhatás',
+      html:row(FIG.newton3,'<p>Ha te erővel hatsz valamire, az <b>ugyanakkora erővel visszahat rád</b>. Ezért fáj belerúgni a medicinlabdába!</p><p>Az erő és az ellenerő <b>egyforma nagy, ellentétes irányú</b>, és <u>két különböző testre</u> hat.</p>')+grid(
+        mini('🚀 Rakétaelv','A rakéta hátrafelé löki ki a gázt, a gáz előrelöki a rakétát. Mint a kiengedett lufi! Így megy a sugárhajtású repülő és a jet-ski is.'),
+        mini('🤝 Erő–ellenerő párok','A tárgy nyomja az asztalt (súly), az asztal tartja a tárgyat (tartóerő). Lépéskor te tolod a talajt hátra, a talaj téged előre.')) },
+    { n:3, c:3, title:'A lendület és a lendület megmaradása',
+      html:row(FIG.momentum,'<p>Lendület = <b>tömeg · sebesség</b>.</p><p class="sh-formula">I = m · v</p><p>Mértékegysége: <b>kg·m/s</b>. Nagyobb, ha nehezebb vagy gyorsabb a test. Egy lassú kamiont nehezebb megállítani, mint egy gyors biciklit. A lendületnek <u>iránya</u> is van.</p>')+grid(
+        mini('🧮 Példa','70 kg-os távolugró, 10 m/s → I = 70 · 10 = <b>700 kg·m/s</b>')),
+      note:'Lendület megmaradása: ha két test egymásnak ütközik, az összes lendületük nem változik, csak átadódik. A mozgó golyó megáll, az álló elindul. Ha kiugrasz a csónakból, a csónak hátrafelé mozdul.' },
+    { n:4, c:4, title:'Körmozgás és forgómozgás',
+      html:row(FIG.circle,'<p><b>Körmozgás:</b> a test körpályán mozog (óriáskerék fülkéje, a bicikli szelepe).</p><p><b>Forgómozgás:</b> maga a test forog egy tengely körül (kerék, ventilátor, a Föld).</p><p>A sebesség <u>érintő irányú</u>: ha a víz leválik a kerékről, egyenesen repül tovább.</p>')+grid(
+        mini('🔁 Fordulatszám (n)','Hányat fordul 1 perc vagy 1 másodperc alatt.<br>Mosógép: 1000/min = percenként 1000 fordulat'),
+        mini('⏱️ Periódusidő (T)','Mennyi idő alatt tesz meg egy teljes kört. Mértékegysége: s.<br>A Föld egy fordulata: 24 óra')) }
+  ]},
+
+  { type:'sheet', section:'Vázlat', title:'Inga, egyensúly, munka, gépek', sub:'Fizika 7. · IV. fejezet · 2. oldal', cards:[
+    { n:5, c:1, title:'Ingamozgás',
+      html:row(FIG.pendulum,'<p>A hinta, az ingaóra, a csillár ide-oda leng. Egy teljes lengés: az egyik szélétől el, és vissza ugyanoda.</p><p><b>Lengésidő (T):</b> egy teljes lengés ideje, s-ban.<br><b>Amplitúdó (A):</b> a legnagyobb kitérés, m-ben.</p>'),
+      note:'A lengésidő csak a fonal hosszától függ! Nem függ a test tömegétől, és attól sem, mennyire térítjük ki. Rövidebb inga → gyorsabban leng.' },
+    { n:6, c:3, title:'Egyensúlyi helyzetek',
+      html:row(FIG.balance,'<p>Háromféle egyensúly van.</p>')+grid(
+        mini('🟢 Biztos (stabil)','Kibillentve <b>visszatér</b>. Pl. keljfeljancsi, lógó hinta.'),
+        mini('🔴 Bizonytalan (labilis)','Kibillentve <b>eldől</b>. Pl. élére állított vonalzó, kötéltáncos.'),
+        mini('🟡 Közömbös','Az <b>új helyén is</b> egyensúlyban marad. Pl. golyó az asztalon.')),
+      note:'Érdekesség: a Gömböc magyar találmány, magától mindig ugyanarra az oldalára billen vissza.' },
+    { n:7, c:2, title:'Munka a fizikában',
+      html:row(FIG.work,'<p>Munkát akkor végzünk, ha az <b>erő hatására</b> a test az <b>erő irányában</b> elmozdul.</p><p class="sh-formula">W = F · s</p><p>Mértékegysége: <b>joule (J)</b>, mint az energiáé.</p>')+grid(
+        mini('🛷 Példa','20 N erővel 3 m-en át húzod a szánkót → W = 20 · 3 = <b>60 J</b>'),
+        mini('⚠️ Nincs munka, ha…','nincs elmozdulás (csak tartod a nehéz labdát), vagy az elmozdulás merőleges az erőre (vízszintesen viszed a táskát).')) },
+    { n:8, c:6, title:'Egyszerű gépek – erőt spórolnak, munkát nem!',
+      html:row(FIG.lever,'<p>Az egyszerű gépekkel <b>erőt</b> takaríthatunk meg, de <u>munkát nem</u>.</p>')+grid(
+        mini('📐 Lejtő típusúak','Lejtő, rámpa, hegyi szerpentin, ék (balta), csavar. Laposabb lejtőn kisebb erő kell, de hosszabb úton.'),
+        mini('⚖️ Emelő típusúak','Rúd, ami egy tengely körül fordul. Minél hosszabb a karod, annál kisebb erő kell.'))+'<table class="sh-tbl" style="margin-top:10px"><tr><th>Fajta</th><th>Mit tud?</th><th>Példák</th></tr><tr><td>kétoldalú emelő</td><td>a tengely a két erő között</td><td>olló, fogó, libikóka</td></tr><tr><td>egyoldalú emelő</td><td>a két erő a tengely egyik oldalán</td><td>talicska, diótörő, sörnyitó</td></tr><tr><td>állócsiga</td><td>csak az erő irányát változtatja</td><td>zászlórúd, kútkerék</td></tr><tr><td>mozgócsiga</td><td>fele akkora erő elég</td><td>daru, vitorlás</td></tr><tr><td>hengerkerék</td><td>a nagy keréken kevesebb erő kell</td><td>autókormány, daráló</td></tr></table>' }
+  ]},
+
   { type:'info', section:'Tanulás', icon:'🏀', title:'Rugalmas és rugalmatlan alakváltozás', fig:FIG.elastic,
     body:'<p>Ütközéskor a testek <b>alakja megváltozik</b>. Kétféle lehet:</p><ul><li><mark class="e2">Rugalmas</mark>: az erő megszűnése után a test <b>visszanyeri az alakját</b>. Pl. gumilabda, trambulin, rugó, teniszütő húrja.</li><li><mark class="e1">Rugalmatlan</mark>: az alakja <b>maradandóan megváltozik</b>. Pl. leejtett gyurma, leesett barack, összetört autó eleje.</li></ul>',
     mc:'<p>Egy slime-blokk visszapattan (rugalmas). Egy leesett homok viszont nem ugrik vissza (rugalmatlan).</p>',

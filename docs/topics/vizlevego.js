@@ -29,9 +29,53 @@ var FIG = {
 };
 FIG.archi = FIG.archi.replace(/<line x1="155" y1="110"[^>]*>/,'');
 
+var row = SV.row, mini = SV.mini, grid = SV.grid;
+
 window.LESSON = {
   id:'vizlevego',
   screens:[
+  /* ================= VÁZLAT ================= */
+  { type:'sheet', section:'Vázlat', title:'Hő és halmazállapotok – vázlat', sub:'Fizika 7. · V. fejezet · 1. oldal', cards:[
+    { n:1, c:1, title:'Hőterjedés',
+      html:row(FIG.heat,'<p>A hő háromféleképpen terjedhet.</p>')+grid(
+        mini('🥄 Hővezetés','Szilárd anyagban, folyadékban, gázban. Pl. a forró kanál nyele felmelegszik.'),
+        mini('🌀 Hőáramlás','Folyadékban, gázban. A meleg levegő vagy víz <b>felfelé áramlik</b>.'),
+        mini('☀️ Hősugárzás','<b>Nincs szükség közvetítő közegre.</b> Így jön a napfény is.'))+'<p style="margin-top:10px"><b>Hővezető</b> (gyorsan terjed benne a hő): fém. <b>Hőszigetelő</b> (lassan): fa, műanyag, levegő, gyapjú.</p>' },
+    { n:2, c:2, title:'Hőtágulás',
+      html:row(FIG.expand,'<p>Melegítéskor a testek <b>kitágulnak</b>, lehűléskor összehúzódnak.</p><p>Annál nagyobb, minél nagyobb a <b>hőmérséklet-változás</b>, és minél nagyobb a <b>kezdeti hossz vagy térfogat</b>. Szilárd és folyékony anyagoknál az anyagtól is függ.</p>'),
+      note:'Ezért hagynak hézagot a vasúti sínek, hidak elemei között. A hőmérő is a hőtágulást használja.' },
+    { n:3, c:3, title:'Halmazállapot-változások',
+      html:row(FIG.phases,'<p><b>Olvadás:</b> szilárd → folyadék. Közben energiát <b>vesz fel</b>. <b>Fagyás:</b> folyadék → szilárd, energiát <b>ad le</b>.</p><p>Az <b>olvadáspont</b> az a hőmérséklet, amelyen megolvad (jég, vas, arany: = fagyáspont).</p>')+grid(
+        mini('💨 Párolgás','Folyadék → gáz. <b>Minden hőmérsékleten</b>, a <b>felszínen</b>. Hűti a környezetét (ezért izzadunk).'),
+        mini('♨️ Forrás','Gőz a folyadék <b>belsejében</b> is. Forráspontnál. Közben hőt vesz fel, a hőmérséklete nem nő.'),
+        mini('💧 Lecsapódás','Gáz → folyadék. Az anyag energiája <b>csökken</b>, a környezeté nő.')),
+      note:'A víz különleges: 4 °C-on a legnagyobb a sűrűsége. A forráspont függ a nyomástól: hegytetőn kisebb hőmérsékleten forr a víz.' },
+    { n:4, c:4, title:'Termikus kölcsönhatás',
+      html:'<p>Ha két <b>különböző hőmérsékletű</b> test érintkezik, energiaátadás történik, amíg a hőmérsékletük <b>egyenlő</b> nem lesz.</p><p>A közös hőmérséklet függ: a kiindulási hőmérséklettől, a két test <b>tömegétől</b> és az <b>anyagi minőségétől</b>.</p>',
+      note:'A melegebb test hűl, a hidegebb melegszik. Amennyit az egyik lead, annyit vesz fel a másik.' }
+  ]},
+
+  { type:'sheet', section:'Vázlat', title:'Nyomás és Arkhimédész – vázlat', sub:'Fizika 7. · V. fejezet · 2. oldal', cards:[
+    { n:5, c:5, title:'A nyomás',
+      html:row(FIG.press,'<p>A nyomás megmutatja, mekkora erő hat <b>egy felületre</b>.</p><p class="sh-formula">p = F : A</p><p>Mértékegysége: <b>pascal (Pa)</b> = N/m².</p>'),
+      note:'Nő, ha növeljük az erőt vagy csökkentjük a felületet (késél). Csökken, ha növeljük a felületet (sílécen nem süllyedsz a hóba).' },
+    { n:6, c:2, title:'Hidrosztatikai nyomás és légnyomás',
+      html:row(FIG.hydro,'<p><b>Hidrosztatikai nyomás:</b> a folyadék súlyából származó nyomás.</p><p class="sh-formula">p = ρ · h · g</p><p>Annál nagyobb, minél <b>mélyebben</b> vagyunk, és minél <b>sűrűbb</b> a folyadék. Azonos mélységben minden irányban ugyanakkora. Mérése: <b>manométer</b>.</p>')+row(FIG.air,'<p><b>Légnyomás:</b> a levegő súlyából származó, minden irányba ható nyomás. Tengerszinten <b>101,3 kPa</b>. Mérése: <b>barométer</b>.</p><p>Hegyen kisebb, mert kisebb a levegőoszlop.</p>'),
+      note:'1 m mély vízben a nyomás: 1000 · 1 · 10 = 10 000 Pa. A pumpa, a szódásszifon, a szívószál a nyomáskülönbséget használja.' },
+    { n:7, c:3, title:'Közlekedőedény és hajszálcsövesség',
+      html:row(FIG.utube,'<p><b>Közlekedőedény:</b> felül nyitott edények, amelyek ágai között a folyadék szabadon áramolhat. Minden ágban a nyugvó folyadék felszíne <b>ugyanabban a vízszintes síkban</b> van.</p><p>Pl. vízmérték, kávéskanna, artézi kút.</p>')+grid(
+        mini('🧵 Hajszálcső','Nagyon kicsi belső átmérőjű cső. Benne a víz felszíne <b>magasabban</b> áll, mint kint. Ez a hajszálcsövesség: így jut fel a víz a növényekben.')) },
+    { n:8, c:4, title:'Arkhimédész törvénye',
+      html:row(FIG.archi,'<p>Minden folyadékba (gázba) merülő testre <b>felhajtóerő</b> hat.</p><p><b>A felhajtóerő nagysága egyenlő a test által kiszorított folyadék súlyával.</b></p><p>A kiszorított folyadék súlya függ: a test <b>folyadékba merülő térfogatától</b> és a folyadék <b>sűrűségétől</b>.</p>'),
+      note:'Példa: egy test 5 liter vizet szorít ki → a víz súlya 50 N → a felhajtóerő 50 N.' },
+    { n:9, c:6, title:'Úszás, lebegés, merülés',
+      html:row(FIG.float,'<p>A test sorsa a <b>sűrűségétől</b> függ.</p>')+grid(
+        mini('🛶 Úszik','ρ test &lt; ρ folyadék<br><b>Fg = Ff</b>. Egy része kilóg.'),
+        mini('🤿 Lebeg','ρ test = ρ folyadék<br><b>Fg = Ff</b>. Teljesen bent van, bárhol megáll.'),
+        mini('⚓ Elmerül','ρ test &gt; ρ folyadék<br><b>Fg &gt; Ff</b>. Lesüllyed.')),
+      note:'A hajó vasból van, mégis úszik: nagy a térfogata, ezért az átlagos sűrűsége kisebb a vízénél.' }
+  ]},
+
   { type:'info', section:'Tanulás', icon:'♨️', title:'Hőterjedés', fig:FIG.heat,
     body:'<p>A hő háromféleképpen terjedhet:</p><ul><li><mark class="e1">Hővezetés</mark>: szilárd anyagokban, folyadékokban és gázokban. Pl. a forró kanál nyele felmelegszik.</li><li><mark class="e4">Hőáramlás</mark>: folyadékokban és gázokban. A meleg levegő vagy víz <b>felfelé áramlik</b>.</li><li><mark class="e2">Hősugárzás</mark>: <b>nincs szükség közvetítő közegre</b>. Így jön a napfény is a Földre.</li></ul><p>Amiben <b>gyorsan</b> terjed a hő, az a <mark class="k">hővezető</mark> (fém). Amiben <b>lassan</b>, az a <mark class="k">hőszigetelő</mark> (fa, műanyag, levegő, gyapjú).</p>',
     mc:'<p>A forró lávakő melletti blokk felmelegszik: hővezetés. A tűz feletti levegő felfelé száll: hőáramlás. A nap melegít: hősugárzás.</p>',

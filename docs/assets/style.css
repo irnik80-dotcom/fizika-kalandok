@@ -193,3 +193,11 @@ input[type=range]{width:100%;height:44px;accent-color:var(--grass-d)}
 #stage:focus,#stage:focus-visible{outline:none}
 
 .sh-tbl{table-layout:fixed}.sh-tbl th,.sh-tbl td{overflow-wrap:anywhere}
+
+/* keskeny képernyőn a rajz a szöveg fölé kerül, nagyobban */
+@media (max-width:540px){
+  .sh-row{flex-direction:column;gap:8px}
+  .sh-row .sh-fig,.mini .sh-row .sh-fig{width:min(100%,300px);margin:0 auto}
+}
+
+.card h1,.card h2,.sh-head h1,.sh-t{overflow-wrap:anywhere}

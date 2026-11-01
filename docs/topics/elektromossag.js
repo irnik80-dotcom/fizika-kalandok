@@ -17,8 +17,8 @@ var FIG = {
     SV.t(232,82,'=',26)+SV.r(250,50,50,50,'#9fe07f')+SV.t(275,82,'3 V',16,'middle','#1b2618')+SV.t(160,148,'sorba kötve a feszültségek összeadódnak',12)),
   ohm: SV.tri('Ohm törvénye: U egyenlő I szorozva R-rel','U','I','R','R = U : I   U = I · R   I = U : R'),
   series: SV.svg('Soros és párhuzamos kapcsolás',
-    '<rect x="20" y="30" width="130" height="80" fill="none" stroke="currentColor" stroke-width="3"/><circle cx="60" cy="110" r="12" fill="#fff3a0" stroke="#1b2618" stroke-width="3"/><circle cx="110" cy="110" r="12" fill="#fff3a0" stroke="#1b2618" stroke-width="3"/>'+SV.t(85,140,'soros: az áram ugyanaz',11)+
-    '<rect x="180" y="30" width="125" height="80" fill="none" stroke="currentColor" stroke-width="3"/><line x1="215" y1="30" x2="215" y2="110" stroke="currentColor" stroke-width="3"/><line x1="270" y1="30" x2="270" y2="110" stroke="currentColor" stroke-width="3"/><circle cx="215" cy="70" r="12" fill="#fff3a0" stroke="#1b2618" stroke-width="3"/><circle cx="270" cy="70" r="12" fill="#fff3a0" stroke="#1b2618" stroke-width="3"/>'+SV.t(242,140,'párhuzamos: a feszültség ugyanaz',11)),
+    '<rect x="20" y="30" width="130" height="80" fill="none" stroke="currentColor" stroke-width="3"/><circle cx="60" cy="110" r="12" fill="#fff3a0" stroke="#1b2618" stroke-width="3"/><circle cx="110" cy="110" r="12" fill="#fff3a0" stroke="#1b2618" stroke-width="3"/>'+SV.t(85,140,'soros: I ugyanaz',11)+
+    '<rect x="180" y="30" width="125" height="80" fill="none" stroke="currentColor" stroke-width="3"/><line x1="215" y1="30" x2="215" y2="110" stroke="currentColor" stroke-width="3"/><line x1="270" y1="30" x2="270" y2="110" stroke="currentColor" stroke-width="3"/><circle cx="215" cy="70" r="12" fill="#fff3a0" stroke="#1b2618" stroke-width="3"/><circle cx="270" cy="70" r="12" fill="#fff3a0" stroke="#1b2618" stroke-width="3"/>'+SV.t(242,140,'párhuzamos: U ugyanaz',11)),
   magnet: SV.svg('Mágnes: azonos pólusok taszítanak, különbözők vonzanak',
     SV.r(20,30,60,30,'#d6403f')+SV.t(50,52,'É',14,'middle','#fff')+SV.r(80,30,60,30,'#2f7fd1')+SV.t(110,52,'D',14,'middle','#fff')+
     SV.r(180,30,60,30,'#d6403f')+SV.t(210,52,'É',14,'middle','#fff')+SV.r(240,30,60,30,'#2f7fd1')+SV.t(270,52,'D',14,'middle','#fff')+
@@ -33,9 +33,54 @@ var FIG = {
     SV.t(55,80,'U₁, N₁',14)+SV.t(260,80,'U₂, N₂',14)+SV.t(160,148,'U₁ : U₂ = N₁ : N₂',13))
 };
 
+var row = SV.row, mini = SV.mini, grid = SV.grid;
+
 window.LESSON = {
   id:'elektromossag',
   screens:[
+  /* ================= VÁZLAT ================= */
+  { type:'sheet', section:'Vázlat', title:'Áram, feszültség, ellenállás', sub:'Fizika 7. · VI. fejezet · 1. oldal', cards:[
+    { n:1, c:1, title:'Elektromos töltés, vezetők és szigetelők',
+      html:row(FIG.charge,'<p>Két fajta töltés van: <b>pozitív</b> (proton) és <b>negatív</b> (elektron). Az <b>azonosak taszítják</b>, a <b>különbözők vonzzák</b> egymást.</p>')+grid(
+        mini('🔩 Vezető','A töltések könnyen elmozdulnak benne: <b>fémek</b> (réz, alumínium, vas).'),
+        mini('🧤 Szigetelő','A töltések nehezen mozdulnak: <b>műanyag, gumi, üveg, fa</b>.')),
+      note:'Két test szoros érintkezésekor elektronok kerülhetnek át: ezért ragad a megdörzsölt lufi. Az emberi test is vezeti az áramot!' },
+    { n:2, c:2, title:'Az elektromos áram és az áramkör',
+      html:row(FIG.circuit,'<p>A töltések <b>egyirányú, rendezett mozgása</b> az elektromos áram. Áram csak <b>zárt áramkörben</b> folyik.</p><p>Jele: <b>I</b> · Mértékegysége: <b>amper (A)</b> · Mérése: <b>árammérő</b>. Az áram iránya a <b>pozitív pólustól a negatív felé</b> mutat.</p>'),
+      note:'Az áramkör fő részei: áramforrás, fogyasztó, vezetékek, kapcsoló.' },
+    { n:3, c:3, title:'Feszültség',
+      html:row(FIG.voltage,'<p>Az áram oka a <b>feszültség</b>: az áramforrás töltéseket mozgató képessége.</p><p>Jele: <b>U</b> · Mértékegysége: <b>volt (V)</b> · Mérése: <b>voltmérő</b>, az áramkör két pontja között.</p>'),
+      note:'Ellentétes pólusaikkal sorba kapcsolt áramforrások feszültsége összeadódik. Ceruzaelem: 1,5 V. Konnektor: 230 V (életveszélyes!).' },
+    { n:4, c:4, title:'Ellenállás és Ohm törvénye',
+      html:row(FIG.ohm,'<p>Az <b>ellenállás</b> megszabja, hogy adott feszültségnél mekkora áram folyik át a fogyasztón.</p><p>Jele: <b>R</b> · Mértékegysége: <b>ohm (Ω)</b>.</p><p class="sh-formula">R = U : I<br>U = I · R<br>I = U : R</p>')+grid(
+        mini('🧮 Példa','12 V feszültség, 3 A áram → R = 12 : 3 = <b>4 Ω</b>')) },
+    { n:5, c:5, title:'Soros és párhuzamos kapcsolás',
+      html:row(FIG.series,'<p>A fogyasztók kapcsolhatók egymás után vagy egymás mellé.</p>')+grid(
+        mini('➡️ Soros','Az <b>áram mindenhol ugyanaz</b> (I = állandó). A feszültségek <b>összeadódnak</b>: U = U₁ + U₂. Ha az egyik kiég, a másik is kialszik.'),
+        mini('⏸️ Párhuzamos','A <b>feszültség ugyanaz</b> (U = állandó). Az áramok <b>összeadódnak</b>: I = I₁ + I₂. Ha az egyik kiég, a másik világít.')),
+      note:'A lakásban a készülékeket párhuzamosan kötik, így mindegyik teljes feszültséget kap.' }
+  ]},
+
+  { type:'sheet', section:'Vázlat', title:'Mágnesek, munka, váltakozó áram', sub:'Fizika 7. · VI. fejezet · 2. oldal', cards:[
+    { n:6, c:6, title:'Állandó mágnesek',
+      html:row(FIG.magnet,'<p>A mágnesnek két <b>pólusa</b> van: északi és déli. Az <b>azonos pólusok taszítják</b>, a <b>különbözők vonzzák</b> egymást. A mágnes a <b>vasat</b> vonzza.</p><p>Az <b>iránytű</b> egy tengely körül elfordulható mágnes. A <b>Földnek is van mágneses mezője</b>.</p>'),
+      note:'A mágnest mágneses mező veszi körül. Ez nem látható, de iránytűvel kimutatható.' },
+    { n:7, c:3, title:'Az áram hatásai, elektromágnes',
+      html:row(FIG.coil,'<p>A vezetőben folyó áram maga körül <b>mágneses mezőt</b> hoz létre. A lágyvas maggal ellátott tekercs az <b>elektromágnes</b>.</p>')+grid(
+        mini('🧲 Mágneses hatás','Az áramvezető kitéríti az iránytűt.'),
+        mini('🔥 Hőhatás','Felmelegszik: vízforraló, vasaló.'),
+        mini('💡 Fényhatás','Az izzó világít.'),
+        mini('⚠️ Élettani hatás','Izomösszehúzódás, égési sérülés. A veszélyességét főleg az <b>áram erőssége</b> határozza meg.')),
+      note:'Áramütés ellen: ne nyúlj sérült vezetékhez, vizes kézzel ne használj elektromos készüléket. Baleset esetén előbb kapcsold le az áramot, és hívj segítséget (112)!' },
+    { n:8, c:1, title:'Elektromos munka és teljesítmény',
+      html:row(FIG.work,'<p>A fogyasztó által végzett <b>munka</b> a feszültség, az áramerősség és az idő szorzata.</p><p class="sh-formula">W = U · I · t<br>P = U · I</p><p>Munka: <b>joule (J)</b>, vagy <b>kWh</b>. Teljesítmény: <b>watt (W)</b>.</p>')+grid(
+        mini('🧮 Példa','230 V és 2 A → P = 230 · 2 = <b>460 W</b>'),
+        mini('🏠 Villanyóra','kWh-ban méri az elfogyasztott energiát. <small>1 kWh = 3 600 000 J</small>')) },
+    { n:9, c:2, title:'Váltakozó feszültség, transzformátor',
+      html:row(FIG.trafo,'<p>Ha egy tekercset mágneses mezőben mozgatunk, feszültség <b>indukálódik</b>. A <b>generátor</b> így állít elő váltakozó feszültséget.</p><p>A <b>váltakozó áram</b> erőssége és iránya is periodikusan változik. A hálózat frekvenciája: <b>50 Hz</b>.</p><p>A <b>transzformátor</b> a feszültséget alakítja át: a menetszámok aránya = a feszültségek aránya.</p>'),
+      note:'A telefontöltő is transzformátort használ: a 230 V-ot alacsony feszültségre csökkenti.' }
+  ]},
+
   { type:'info', section:'Tanulás', icon:'⚡', title:'Elektromos töltés és állapot', fig:FIG.charge,
     body:'<p>Az anyagokban két fajta töltés van: <b>pozitív</b> (proton) és <b>negatív</b> (elektron).</p><ul><li><mark class="e1">Pozitív</mark> állapotú test: több a proton (elektronhiány).</li><li><mark class="e5">Negatív</mark> állapotú test: több az elektron (elektrontöbblet).</li><li><b>Semleges</b>: ugyanannyi proton és elektron.</li></ul><p>Két test <b>szoros érintkezésekor</b> elektronok mehetnek át az egyikről a másikra. Ezért „elektromosodik” a megdörzsölt lufi, és ezért ragad a hajadra.</p><p>Az azonos töltések <b>taszítják</b>, a különbözők <b>vonzzák</b> egymást.</p>',
     mc:'<p>A Minecraftban a villám a „töltés kisülése”. A valóságban is a felhők töltése ugrik át a földre.</p>',

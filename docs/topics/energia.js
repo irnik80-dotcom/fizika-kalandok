@@ -56,9 +56,51 @@ var FIG = {
     SV.t(250,32,'legtakarékosabb',12)+SV.t(250,148,'legpazarlóbb',12))
 };
 
+var row = SV.row, mini = SV.mini, grid = SV.grid;
+
 window.LESSON = {
   id:'energia',
   screens:[
+  /* ================= VÁZLAT ================= */
+  { type:'sheet', section:'Vázlat', title:'Az energia – vázlat', sub:'Fizika 7. · II. fejezet · 1. oldal', cards:[
+    { n:1, c:1, title:'Mi az energia?',
+      html:row(FIG.unit,'<p>Az energia megmutatja, hogy egy tárgy, anyag (vagy a fény, a hang) <b>milyen állapotban van</b>, és <b>mire képes</b>: tud-e melegíteni, mozgatni, világítani.</p><p>Jele: <b>E</b> · Mértékegysége: <b>joule (J)</b> – ejtsd: „dzsúl”.</p>'),
+      note:'Jó tudni: 1 J kb. annyi, mint egy kisebb almát (100 g) 1 méter magasra emelni. Egy pohár joghurtban kb. 600 000 J van!' },
+    { n:2, c:2, title:'Az energia fajtái',
+      html:grid(
+        mini('🔥 Belső energia','Az anyag melegségéhez kötődik. Melegebb → több.'),
+        mini('🏃 Mozgási energia','Ami halad: guruló labda, száguldó bicikli.'),
+        mini('🔄 Forgási energia','Ami pörög: búgócsiga, lendkerekes kisautó.'),
+        mini('🏹 Rugalmas energia','Összenyomott rugó, megfeszített gumi, íj.'),
+        mini('⛰️ Helyzeti energia','Ami magasan van: szánkó a domb tetején, esőcsepp a felhőben.'),
+        mini('☀️ Fény és hang','Ezeknek is van energiájuk (a napfény melegít!).')),
+      note:'Jegyezd meg: mozgási + forgási + rugalmas + helyzeti = mechanikai energia.' },
+    { n:3, c:3, title:'Az energia vándorol (energiaátadás)',
+      html:row(FIG.transfer,'<p><b>Forró + hideg víz:</b> a forró víz energiát ad, lehűl. A hideg kap, felmelegszik. Addig tart, amíg egyforma meleg nem lesz.</p><p><b>Tenyér dörzsölése:</b> a mozgás melegít: mozgási energia → belső energia. Ezért forró a bicikli féke is egy nagy fékezés után.</p>')+grid(mini('🧊 Jég meleg vízben','energiát kap → 0 °C-on elolvad → a kapott energia az <b>olvadásra</b> megy el, a hőmérséklet közben nem nő.')) },
+    { n:4, c:4, title:'Az energia megmaradásának tétele',
+      html:row(FIG.chests,'<p>Az energia <b>nem keletkezik a semmiből, és nem is tűnik el</b>. Csak átkerül egyik dologról a másikra, vagy átalakul.</p><p>Olyan, mint a zsebpénz két testvér között: amennyit az egyik odaad, pontosan annyit kap a másik – az összes pénz ugyanannyi marad.</p>'),
+      note:'Példa: a forró víz 1500 J energiát ad át a hideg víznek → a hideg víz energiája 1500 J-lal nő.' }
+  ]},
+
+  { type:'sheet', section:'Vázlat', title:'Energiaforrások és fogyasztás', sub:'Fizika 7. · II. fejezet · 2. oldal', cards:[
+    { n:5, c:3, title:'Energiaforrások – ahonnan energiát nyerünk',
+      html:row(FIG.sources,'<p>A legfontosabb energiaforrásunk a <b>Nap</b>: nélküle nem nőne növény, nem fújna szél, nem esne eső.</p>')+grid(
+        mini('🌱 Megújuló (zöld)','Nap, szél, víz, föld melege (geotermikus). <b>Nem fogy el.</b>'),
+        mini('🛢️ Fosszilis (nem megújuló)','Szén, kőolaj → benzin, földgáz. Égetéssel adnak energiát. <b>Elfogynak.</b>'),
+        mini('🔌 Másodlagos','Elektromos áram, gőz. <b>Erőművekben</b> állítják elő más forrásokból.')) },
+    { n:6, c:1, title:'Fűtőérték – melyik üzemanyag a legjobb?',
+      html:row(FIG.heat,'<p>A fűtőérték megmutatja, <b>mennyi energiát kapunk 1 kg üzemanyag elégetésével</b>. Mértékegysége: <b>MJ/kg</b>.</p><p>1 MJ = 1 000 000 J. A földgázé: 37 MJ/m³.</p>'),
+      note:'Példa: 3 kg benzin → 3 · 43 = 129 MJ energia. Minél nagyobb a fűtőérték, annál hatékonyabb az üzemanyag.' },
+    { n:7, c:2, title:'Energiaigények – mire használjuk?',
+      html:grid(
+        mini('🍽️ A testünk: az étel','Az étel a test „üzemanyaga”: mozgáshoz, gondolkodáshoz kell. A legtöbb energiát a <b>zsír</b> tárolja. Joghurt: 596 kJ = 596 000 J.'),
+        mini('🏠 A lakás','Fűtés, főzés, világítás, gépek. A <b>villanyóra</b> és a <b>gázóra</b> méri, mennyit használunk.'))+row(FIG.power,'<p><b>Teljesítmény (P):</b> milyen gyorsan használja el a gép az energiát – mennyit 1 másodperc alatt.</p><p class="sh-formula">P = E : t<br>E = P · t</p><p>Mértékegysége: <b>watt (W)</b> = J/s.</p>'),
+      note:'Példa: egy mosogatógép 40 perc alatt 3600 kJ-t fogyaszt → P = 3 600 000 J : 2400 s = 1500 W. A 7 W-os LED-lámpa másodpercenként 7 J energiát használ.' },
+    { n:8, c:5, title:'Az energiafogyasztás és a környezet',
+      html:row(FIG.label,'<p>Égetéskor <b>korom, füst, szén-dioxid, szén-monoxid</b> keletkezik → szennyezik a levegőt (télen szmog). A kitermelés is károsítja a természetet.</p>'),
+      note:'Légy energiatakarékos! Kapcsold le a lámpát, a tévét · Használj LED-et · Vásárláskor: A energiaosztály = legtakarékosabb, G = legrosszabb.' }
+  ]},
+
   /* ================= TANULÁS ================= */
   { type:'info', section:'Tanulás', icon:'⚡', title:'Mi az az energia?', fig:FIG.hook,
     body:'<p>Biztos hallottad már: <mark class="k">„tele van energiával”</mark> vagy <mark class="k">„nincs energiám”</mark>. Ezeket a hétköznapokban mondjuk.</p><p>A fizikában az energia <b>pontos fogalom</b>, amit számmal is ki tudunk fejezni.</p><p><b>Ebben a témában megtudod:</b></p><ul><li>mi az energia és milyen fajtái vannak,</li><li>hogyan megy át egyik testből a másikba,</li><li>honnan szerezhetünk energiát,</li><li>mennyi energiát fogyaszt egy gép (teljesítmény),</li><li>és hogyan spórolhatunk vele.</li></ul>',

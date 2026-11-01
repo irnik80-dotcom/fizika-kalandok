@@ -24,9 +24,50 @@ var FIG = {
     SV.wave('x',20,3).replace(/<svg[^>]*>/,'').replace('</svg>','')+SV.t(160,140,'a fény: elektromágneses hullám',13))
 };
 
+var row = SV.row, mini = SV.mini, grid = SV.grid;
+
 window.LESSON = {
   id:'hullamok',
   screens:[
+  /* ================= VÁZLAT ================= */
+  { type:'sheet', section:'Vázlat', title:'Hullámok és hangkeltés', sub:'Fizika 7. · VIII. fejezet · 1. oldal', cards:[
+    { n:1, c:2, title:'Hullámok a természetben',
+      html:row(FIG.rippled,'<p>A <b>hullám</b> bármilyen halmazállapotú anyagban létrejöhet. A <b>hullámforrás rezgetéssel</b> kelti.</p><p>A hullám <b>hullámhegyek és -völgyek</b> (vagy sűrűsödések és ritkulások) terjedésével távolodik a forrástól. A hang is hullám.</p>'),
+      note:'A hullám az anyag határáról visszaverődhet, vagy átléphet egy új anyagba. Ekkor megváltozik a sebessége és a hullámhossza. A hullám energiát visz, anyagot nem.' },
+    { n:2, c:3, title:'A hullám jellemzői',
+      html:row(FIG.wave,'<p><b>Hullámhossz (λ):</b> két szomszédos hullámhegy távolsága.<br><b>Amplitúdó:</b> a legnagyobb kitérés.<br><b>Frekvencia (f):</b> rezgések száma 1 s alatt, <b>hertz (Hz)</b>.<br><b>Periódusidő (T):</b> egy rezgés ideje.</p><p class="sh-formula">f = 1 : T</p>'),
+      note:'Példa: ha egy rezgés 0,5 s, akkor f = 1 : 0,5 = 2 Hz.' },
+    { n:3, c:1, title:'A hangkeltés',
+      html:row(FIG.string,'<p>A hangokat a <b>hangforrás rezgése</b> hozza létre.</p><p>• A kifeszített húr hangját a <b>hossza, vastagsága, feszessége</b> befolyásolja.<br>• A sípok hangját a síp hossza módosítja.<br>• A hangszóró <b>membránja</b> rezegve hangot kelt.</p>') },
+    { n:4, c:4, title:'Hangszerek',
+      html:row(FIG.instr,'<p>A hangszereket a hangkeltés módja szerint is csoportosíthatjuk.</p>')+grid(
+        mini('🎸 Kordofon','<b>Húr</b> rezeg: gitár, hegedű.'),
+        mini('🥁 Membrafon','<b>Hártya</b> rezeg: üstdob, köcsögduda.'),
+        mini('🎷 Aerofon','<b>Levegő</b> rezeg: furulya, orgona.'),
+        mini('🔔 Idiofon','A <b>hangszertest</b> maga rezeg: gong, kereplő.')),
+      note:'Régi csoportosítás a megszólaltatás módja szerint: fúvós, vonós, pengetős, billentyűs, ütős.' }
+  ]},
+
+  { type:'sheet', section:'Vázlat', title:'Hallás, hang és fény', sub:'Fizika 7. · VIII. fejezet · 2. oldal', cards:[
+    { n:5, c:5, title:'Hallás, a fül',
+      html:row(FIG.ear,'<p>A fülkagyló a hangot a <b>dobhártyára</b> tereli, ami megrezeg, és a hallócsontok viszik tovább a rezgést.</p><p>A <b>hangerősséget</b> decibelben (<b>dB</b>) mérjük.</p>')+grid(
+        mini('✅ Hallásküszöb','<b>0 dB</b>'),
+        mini('⚠️ Fájdalomküszöb','<b>130 dB</b>')),
+      note:'A túl hangos zene tartósan károsíthatja a hallásodat!' },
+    { n:6, c:6, title:'A hang terjedése',
+      html:row(FIG.sound,'<p>A hang terjedéséhez <b>közvetítő anyag</b> kell. <b>Légüres térben nem terjed.</b></p><p>Levegőben a hang sebessége kb. <b>340 m/s</b>. Függ az anyagtól és a hőmérséklettől.</p>'),
+      note:'Példa: ha a villám után 3 s-mal halljuk a dörgést, a villám s = 340 · 3 = 1020 m-re csapott be.' },
+    { n:7, c:3, title:'Magas és mély hangok',
+      html:row(FIG.scale,'<p>A <b>hangmagasság</b> a <b>frekvenciától</b> függ: nagyobb frekvencia = magasabb hang. Minél hosszabb a húr, annál mélyebb.</p>')+grid(
+        mini('👂 Hallható tartomány','<b>20 – 20 000 Hz</b>'),
+        mini('⬇️ Infrahang','20 Hz alatt'),
+        mini('⬆️ Ultrahang','20 000 Hz felett')),
+      note:'A hangok egyediségét a hangszín határozza meg. A denevér és a delfin ultrahangot használ tájékozódásra.' },
+    { n:8, c:2, title:'Fényhullámok',
+      html:row(FIG.em,'<p>A fény <b>elektromágneses hullám</b>. Sebessége légüres térben és levegőben kb. <b>300 000 km/s</b>. Légüres térben is terjed.</p><p>A fehér fény összetett: vörös, narancs, sárga, zöld, kék, ibolya. A vörösé a legnagyobb, az ibolyáé a legkisebb a hullámhossz.</p>'),
+      note:'A fény sokkal gyorsabb a hangnál: ezért látjuk a villámot, mielőtt hallanánk a dörgést.' }
+  ]},
+
   { type:'info', section:'Tanulás', icon:'🌊', title:'Hullámok a természetben', fig:FIG.rippled,
     body:'<p>A <mark class="k">hullám</mark> bármilyen halmazállapotú anyagban létrejöhet. A <mark class="k">hullámforrás rezgetéssel</mark> kelti a hullámokat.</p><p>A hullám <b>hullámhegyek és -völgyek</b> (vagy <b>sűrűsödések és ritkulások</b>) terjedésével távolodik a forrástól.</p><ul><li>Hullámok vannak a <b>vízen</b>, a <b>kötélen</b>, a <b>levegőben</b>.</li><li>A <b>hang is hullám</b>.</li></ul><p>A hullám az anyag határáról <b>visszaverődhet</b>, vagy <b>átléphet</b> egy új anyagba. Ekkor <b>megváltozik</b> a terjedési sebessége és a hullámhossza.</p>',
     mc:'<p>Ha követ dobsz a vízbe, körkörös hullámok indulnak. A hullám az energiát viszi tovább, nem a vizet.</p>',

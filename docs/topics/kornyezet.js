@@ -20,9 +20,49 @@ var FIG = {
     SV.r(80,60,100,70,'#e8d38a')+'<polygon points="70,60 130,20 190,60" fill="#a9743a" stroke="#1b2618" stroke-width="3"/>'+SV.r(120,90,20,40,'#a9743a')+SV.r(65,55,10,80,'#9fd0ff')+SV.r(185,55,10,80,'#9fd0ff')+SV.t(250,85,'hőszigetelés',12,'start')+SV.t(250,102,'= kevesebb hő',12,'start')+SV.t(250,119,'megy el',12,'start'))
 };
 
+var row = SV.row, mini = SV.mini, grid = SV.grid;
+
 window.LESSON = {
   id:'kornyezet',
   screens:[
+  /* ================= VÁZLAT ================= */
+  { type:'sheet', section:'Vázlat', title:'Légkör és energia – vázlat', sub:'Fizika 7. · IX. fejezet · 1. oldal', cards:[
+    { n:1, c:2, title:'A Föld légköre',
+      html:row(FIG.layers,'<p>A <b>légkör</b> a Földet körülvevő gáztömeg, amely a Földdel együtt kering a Nap körül.</p><p>Réteges: az egyes rétegekben más az összetétel, a hőmérséklet, a nyomás és a sűrűség.</p>'),
+      note:'A troposzférában élünk, itt van az időjárás. A légkör éltet és véd.' },
+    { n:2, c:4, title:'Az ózonréteg és az UV-sugárzás',
+      html:row(FIG.ozone,'<p>Az <b>ózonréteg</b> megköti az <b>ultraibolya (UV) sugárzás káros összetevőit</b> (a sztratoszférában).</p><p>Védekezés: naptej, napszemüveg, kalap, árnyék a déli órákban.</p>'),
+      note:'A légszennyezés az emberiség egészét érintő globális probléma. Megoldása mindenki érdeke és feladata.' },
+    { n:3, c:1, title:'Meddig bírjuk energiával?',
+      html:row(FIG.fuel,'<p>Egy társadalom gazdasági fejlődése együtt jár az <b>energiaszükséglet növekedésével</b>.</p>')+grid(
+        mini('🛢️ Kimeríthető','<b>Szén, földgáz, kőolaj</b> (fosszilisek), és az <b>urán</b>.'),
+        mini('🌱 Megújuló','<b>Nap-, bio-, víz-, szélenergia, geotermikus energia.</b>')),
+      note:'A növekvő energiatermelés a környezet egyre nagyobb terhelését jelenti, és súlyos, globális problémákat okoz.' }
+  ]},
+
+  { type:'sheet', section:'Vázlat', title:'Takarékosság és klíma – vázlat', sub:'Fizika 7. · IX. fejezet · 2. oldal', cards:[
+    { n:4, c:5, title:'A háztartás energiafelhasználása',
+      html:row(FIG.house,'<p>Országunk villamosenergia-fogyasztásának kb. <b>a harmadát a háztartások</b>, <b>negyedét a közlekedés</b> teszi ki.</p><p>Egy család energiájának <b>legnagyobb részét a fűtés</b> viszi el (kb. 71%).</p>'),
+      note:'A fűtést hőszigeteléssel jelentősen csökkenteni lehet.' },
+    { n:5, c:3, title:'Hogyan spórolhatok?',
+      html:row(FIG.iso,'<p>Kis odafigyeléssel, <b>befektetés nélkül</b> is rengeteg energiát takaríthatunk meg.</p>')+grid(
+        mini('💡 Lámpa, LED','Kapcsold le, ha nem kell. Használj LED-izzót.'),
+        mini('🔌 Készenlét','A használaton kívüli készüléket kapcsold ki.'),
+        mini('🏷️ Energiaosztály','Vásárláskor az <b>A</b> a legtakarékosabb, a <b>G</b> a legpazarlóbb.'),
+        mini('🪟 Szellőztetés','Rövid ideig, de teljesen. Ne hagyd nyitva fűtéskor.')),
+      note:'Számolás: egy 100 W-os izzó 5 órán át ég → E = 100 · 5 = 500 Wh = 0,5 kWh.' },
+    { n:6, c:6, title:'Éghajlatváltozás',
+      html:row(FIG.green,'<p>Az éghajlat folyamatosan ingadozva változik. Több évtizede <b>kismértékben nő az átlaghőmérséklet</b>.</p><p>Egyik oka az <b>üvegházhatás</b> erősödése: a <b>szén-dioxid</b> visszatartja a Föld hőjét. Fosszilis anyagok égetésekor szén-dioxid kerül a levegőbe.</p>'),
+      note:'Az üvegházhatás önmagában természetes és szükséges. A baj az, ha túl erős lesz.' },
+    { n:7, c:1, title:'Mit tehetünk?',
+      html:grid(
+        mini('♻️ Takarékoskodj','energiával és vízzel'),
+        mini('🚌 Közlekedj okosan','tömegközlekedés, bicikli, gyaloglás'),
+        mini('🗑️ Gyűjtsd szelektíven','a hulladékot'),
+        mini('🏭 Szűrők, katalizátor','a gyárak és járművek kevesebb szennyezőanyagot bocsátanak ki')),
+      note:'A jövő a megújuló energiaforrásoké: nap-, szél- és vízerőművek.' }
+  ]},
+
   { type:'info', section:'Tanulás', icon:'🌍', title:'A Föld légköre', fig:FIG.layers,
     body:'<p>A <mark class="k">légkör</mark> a Földet körülvevő <b>gáztömeg</b>, amely a Földdel együtt kering a Nap körül.</p><p>A légkör <b>réteges</b>. Az egyes rétegekben más-más az összetétel, a hőmérséklet, a nyomás és a sűrűség.</p><ul><li><b>Troposzféra</b>: a legalsó réteg, itt élünk, itt van az időjárás.</li><li><b>Sztratoszféra</b>: itt van az ózonréteg.</li><li>Fölötte a mezoszféra, a termoszféra és az exoszféra.</li></ul><p>A légkör <b>éltet és véd</b>: lélegzünk benne, és megvéd a káros sugárzástól.</p>',
     mc:'<p>Ha Minecraftban a magasba építesz, a levegő „ugyanolyan”. A valóságban a levegő a magassággal egyre ritkább.</p>',

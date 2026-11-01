@@ -38,3 +38,8 @@ SV.boxes = function(label, items, cap){
   var n=items.length, w=(300-(n-1)*8)/n, o='';
   items.forEach(function(it,i){ var x=10+i*(w+8); o+=SV.r(x,40,w,60,it[1])+SV.t(x+w/2,76,it[0],SV.fs(it[0],w>110?13:11,w-8),'middle','#1b2618'); });
   return SV.svg(label,o+(cap?SV.t(160,130,cap,12):'')); };
+
+/* vázlat-kártyák építőelemei */
+SV.row  = function(fig, html){ return '<div class="sh-row"><div class="sh-fig">'+fig+'</div><div class="sh-txt">'+html+'</div></div>'; };
+SV.mini = function(title, html){ return '<div class="mini"><b class="mt">'+title+'</b>'+html+'</div>'; };
+SV.grid = function(){ return '<div class="sh-grid">'+Array.prototype.join.call(arguments,'')+'</div>'; };

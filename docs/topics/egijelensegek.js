@@ -16,9 +16,9 @@ var FIG = {
   moon: SV.svg('A Hold fázisai kb. 29 napos ciklust mutatnak', moon(48,'new','újhold')+moon(123,'right','első negyed')+moon(198,'full','telihold')+moon(273,'left','utolsó negyed')),
   orbit: SV.svg('A Hold kering a Föld körül, a Föld a Nap körül',
     SV.sun(40,75)+'<circle cx="150" cy="75" r="16" fill="#2f7fd1" stroke="#1b2618" stroke-width="3"/>'+SV.t(150,115,'Föld',11)+
-    '<circle cx="150" cy="75" r="45" fill="none" stroke="#8b8f87" stroke-width="2" stroke-dasharray="4 4"/><circle cx="195" cy="75" r="7" fill="#f6efc0" stroke="#1b2618" stroke-width="2"/>'+SV.t(240,70,'Hold:',12,'start')+SV.t(240,86,'nincs saját fénye',11,'start')),
-  planets: SV.flow('A Naprendszer nyolc bolygója',[['Merkúr','#cfcfcf'],['Vénusz','#f2c230'],['Föld','#6ab0ff'],['Mars','#d6403f']],['','',''],'belső (kőzet) bolygók'),
-  planets2: SV.flow('A külső bolygók',[['Jupiter','#d9a86c'],['Szaturnusz','#f0d78a'],['Uránusz','#9fe3ea'],['Neptunusz','#4a6fd1']],['','',''],'külső (gáz- és jégóriás) bolygók'),
+    '<circle cx="150" cy="75" r="45" fill="none" stroke="#8b8f87" stroke-width="2" stroke-dasharray="4 4"/><circle cx="195" cy="75" r="7" fill="#f6efc0" stroke="#1b2618" stroke-width="2"/>'+SV.t(240,70,'Hold:',12,'start')+SV.t(240,86,'nincs fénye',11,'start')),
+  planets: SV.boxes('A Naprendszer belső bolygói',[['Merkúr','#cfcfcf'],['Vénusz','#f2c230'],['Föld','#6ab0ff'],['Mars','#d6403f']],'belső (kőzet) bolygók'),
+  planets2: SV.boxes('A külső bolygók',[['Jupiter','#d9a86c'],['Szaturnusz','#f0d78a'],['Uránusz','#9fe3ea'],['Neptunusz','#4a6fd1']],'külső (gáz- és jégóriás) bolygók'),
   small: SV.boxes('A Nap körül keringő égitestek',[['kisbolygó','#d9d9d9'],['törpebolygó','#cfe9ff'],['üstökös','#fdeeb0'],['meteoroid','#ffd9d6']],'a meteoroid a légkörben meteorként elég'),
   distance: SV.svg('Nap–Föld távolság: 1 CsE = 150 millió km',
     SV.sun(45,75)+SV.arrow(75,75,215,'#2f7fd1')+'<circle cx="245" cy="75" r="14" fill="#2f7fd1" stroke="#1b2618" stroke-width="3"/>'+SV.t(160,55,'1 CsE = 150 millió km',13)+SV.t(160,110,'a fény ide kb. 8 perc alatt ér',12)),
@@ -27,9 +27,48 @@ var FIG = {
     SV.r(200,60,50,30,'#d9d9d9')+SV.r(170,65,30,20,'#2f7fd1')+SV.r(250,65,30,20,'#2f7fd1')+SV.t(225,115,'űrszonda',11))
 };
 
+var row = SV.row, mini = SV.mini, grid = SV.grid;
+
 window.LESSON = {
   id:'egijelensegek',
   screens:[
+  /* ================= VÁZLAT ================= */
+  { type:'sheet', section:'Vázlat', title:'Nap, Hold, bolygók – vázlat', sub:'Fizika 7. · X. fejezet · 1. oldal', cards:[
+    { n:1, c:1, title:'A Nap és az égtájak',
+      html:row(FIG.compass,'<p>A Nap égi mozgása kijelöli a négy <b>égtájat</b>: <b>észak, kelet, dél, nyugat</b>.</p><p>Keleten kel, délben a legmagasabban van, nyugaton nyugszik.</p>'),
+      note:'A Nap égi mozgása adja a napok és az évek ritmusát: egy nap a Föld egy fordulata, egy év a Föld egy keringése a Nap körül.' },
+    { n:2, c:3, title:'A Nap – éltető csillagunk',
+      html:row(FIG.sun,'<p>A Nap a <b>Naprendszer központi csillaga</b>. Körülötte keringenek a bolygók, az üstökösök.</p><p>A Nap központjában zajlik az <b>energiatermelés</b>. Az így keletkező <b>fényt és hőt</b> sugározza a világmindenségbe.</p>'),
+      note:'Éltető ereje miatt a Napnak kiemelkedő kulturális jelentősége van.' },
+    { n:3, c:2, title:'A Hold – állandó kísérőnk',
+      html:row(FIG.orbit,'<p>A Hold a Föld körül kering, és közben a <b>saját tengelye körül is forog</b>. <b>Nincs önálló fénye</b>: a Nap fényét veri vissza.</p>'),
+      note:'A Nap és a Hold égi mozgásai adják a naptárak alapját.' },
+    { n:4, c:4, title:'Holdfázisok és a naptár',
+      html:row(FIG.moon,'<p>A Hold fázisai kb. <b>29 napos</b> ciklust mutatnak: újhold, első negyed, telihold, utolsó negyed.</p>')+grid(
+        mini('📅 Gergely-naptár','XIII. Gergely pápa 1582-ben vezette be: október 4-e után október 15-e következett. A szökőnap a pontosság miatt kell.')) }
+  ]},
+
+  { type:'sheet', section:'Vázlat', title:'Bolygók és űrkutatás – vázlat', sub:'Fizika 7. · X. fejezet · 2. oldal', cards:[
+    { n:5, c:5, title:'A csillagok',
+      html:'<p>A csillagok <b>saját fényükkel</b> világító, óriási, forró gázgömbök. A Nap is csillag. Azért tűnnek parányi pontnak, mert nagyon messze vannak.</p>'+grid(
+        mini('🌟 Fényév','Az az út, amit a fény egy év alatt megtesz. Kb. 9 460 milliárd km.'),
+        mini('⭐ Csillagkép','Az égen látható csillagok mintázata. A Sarkcsillag mindig északra mutat.')) },
+    { n:6, c:2, title:'A Naprendszer nyolc bolygója',
+      html:'<p><b>Napközéppontú világkép:</b> a bolygók a Nap körül keringenek. (Régen azt hitték, a Föld áll középen.)</p>'+row(FIG.planets,'<p><b>Belső (kőzet) bolygók</b></p>')+row(FIG.planets2,'<p><b>Külső bolygók</b></p>'),
+      note:'Sorrend a Naptól: Merkúr, Vénusz, Föld, Mars, Jupiter, Szaturnusz, Uránusz, Neptunusz. Emlékeztető: a nevek első két betűje.' },
+    { n:7, c:3, title:'Távolságok',
+      html:row(FIG.distance,'<p>A Nap–Föld közepes távolság <b>1 CsE</b> (csillagászati egység) = <b>150 millió km</b>.</p><p>A Mars kb. 1,5 CsE-re van a Naptól. A fény a Naptól kb. <b>8 perc</b> alatt ér a Földre.</p>') },
+    { n:8, c:6, title:'Egyéb égitestek',
+      html:row(FIG.small,'<p>A Nap körül nemcsak bolygók keringenek.</p>')+grid(
+        mini('🪨 Kisbolygó','Kisebb sziklás égitest.'),
+        mini('🔵 Törpebolygó','A bolygóknál kisebb, pl. a Plútó.'),
+        mini('☄️ Üstökös','Jég és por, a Nap közelében farkat növeszt.'),
+        mini('✨ Meteoroid','Apró kődarab. Ha elég a légkörben: hullócsillag.')) },
+    { n:9, c:4, title:'Az űrkutatás',
+      html:row(FIG.space,'<p>A 17. századtól <b>távcsővel</b> figyelték az eget. Ma már <b>űrszondákat</b> is használnak: a bolygókhoz repülnek, és képeket, adatokat küldenek a Földre.</p>'),
+      note:'A csillagvizsgálókban ma is távcsővel dolgoznak a kutatók.' }
+  ]},
+
   { type:'info', section:'Tanulás', icon:'☀️', title:'A Nap és az égtájak', fig:FIG.compass,
     body:'<p>A Nap égi mozgása kijelöli a <b>négy égtájat</b>: <mark class="k">észak, kelet, dél, nyugat</mark>.</p><ul><li>Reggel <b>keleten</b> kel fel,</li><li>délben <b>délen</b> van a legmagasabban,</li><li>este <b>nyugaton</b> nyugszik le.</li></ul><p>A Nap égi mozgása adja a <b>napok és az évek ritmusát</b>. Egy <b>nap</b> a Föld egy teljes körbefordulása, egy <b>év</b> a Föld egy Nap körüli keringése.</p>',
     mc:'<p>Minecraftban is a Nap kel keleten és nyugszik nyugaton. Így találsz el az irányokat, ha elveszel.</p>',

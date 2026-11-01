@@ -52,21 +52,26 @@
   function parseNum(s) { s = String(s).toLowerCase().replace(/[^0-9.,\-\s ]+$/, '').replace(/[\s ]/g, '').replace(',', '.'); return s === '' ? NaN : Number(s); }
 
   /* a rajzok kilógó feliratait a rajz szélességéhez igazítja */
-  function clampSvg(root) {
+  function clampOnce(root) {
     root.querySelectorAll('svg').forEach(function (svg) {
       var W = svg.viewBox.baseVal.width;
       svg.querySelectorAll('text').forEach(function (tx) {
         try {
           var b = tx.getBBox();
-          if (b.x < 3 || b.x + b.width > W - 3) {
+          if (b.x < 4 || b.x + b.width > W - 4) {
             var a = tx.getAttribute('text-anchor') || 'start', x = +tx.getAttribute('x');
-            var avail = a === 'middle' ? 2 * Math.min(x, W - x) - 6 : a === 'end' ? x - 3 : W - x - 3;
+            var avail = a === 'middle' ? 2 * Math.min(x, W - x) - 10 : a === 'end' ? x - 5 : W - x - 5;
             var fs = +tx.getAttribute('font-size') || 12;
-            if (avail > 0 && b.width > avail) tx.setAttribute('font-size', Math.max(6.5, fs * avail / b.width).toFixed(1));
+            if (avail > 0 && b.width > avail) tx.setAttribute('font-size', Math.max(6.5, fs * avail / b.width * 0.97).toFixed(1));
           }
         } catch (err) {}
       });
     });
+  }
+  function clampSvg(root) {
+    clampOnce(root); clampOnce(root);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { clampOnce(root); clampOnce(root); });
+    setTimeout(function () { clampOnce(root); }, 600);
   }
   function unlock() { done[pos] = true; nextBtn.disabled = false; }
   function mark(correctFirst) { if (correctFirst) firstTry++; }
