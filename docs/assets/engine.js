@@ -105,6 +105,22 @@
     clampSvg(c);
   };
 
+  R.sheet = function (s) {
+    var w = el('section', 'sheet');
+    var h = el('div', 'sh-head'); h.appendChild(el('h1', '', s.title)); h.appendChild(el('span', '', s.sub || ''));
+    w.appendChild(h);
+    s.cards.forEach(function (k) {
+      var c = el('div', 'sh-card c' + k.c);
+      c.appendChild(el('h2', 'sh-t', '<span class="sh-n">' + k.n + '</span><span>' + k.title + '</span>'));
+      var b = el('div', 'sh-body', (k.fig ? '<div class="sh-fig">' + k.fig + '</div>' : '') + k.html);
+      c.appendChild(b);
+      if (k.note) c.appendChild(el('div', 'sh-note', k.note));
+      w.appendChild(c);
+    });
+    stage.appendChild(w);
+    clampSvg(w);
+  };
+
   R.sim = function (s) {
     var c = el('section', 'card');
     c.appendChild(el('h2', '', s.title));

@@ -43,9 +43,41 @@ var FIG = {
     SV.t(160,145,'gördülési < csúszási < tapadási súrlódás',12))
 };
 
+var row = function(fig, html){ return '<div class="sh-row"><div class="sh-fig">'+fig+'</div><div class="sh-txt">'+html+'</div></div>'; };
+FIG.triS = SV.tri('Sebesség háromszög','s','v','t','');
+FIG.triF = SV.tri('Newton II. háromszög','F','m','a','');
+
 window.LESSON = {
   id:'mozgas',
   screens:[
+  /* ================= VÁZLAT (egy oldalas összefoglaló) ================= */
+  { type:'sheet', section:'Vázlat', title:'A mozgás – vázlat', sub:'Fizika 7. · III. fejezet · 1. oldal', cards:[
+    { n:1, c:1, title:'Pálya, út, elmozdulás',
+      html:row(FIG.path,'<p><b>Pálya:</b> a vonal, amin a test végigmegy (mint a nyom a hóban).</p><p><b>Út (s):</b> a pálya hossza. Mértékegysége: <b>méter (m)</b>.</p><p><b>Elmozdulás:</b> egyenes nyíl az indulástól az érkezésig. Általában <u>rövidebb</u>, mint az út.</p>'),
+      note:'Csak egyenes pályán egyenlő az út és az elmozdulás. Ez az egyenes vonalú mozgás.' },
+    { n:2, c:2, title:'Sebesség – milyen gyorsan megy?',
+      html:row(FIG.triS,'<p>A sebesség megmutatja, mekkora utat tesz meg a test egy idő alatt.</p><p class="sh-formula">v = s : t<br>s = v · t<br>t = s : v</p><p>Jele: <b>v</b> · Mértékegysége: <b>m/s</b> vagy <b>km/h</b> · Neki <u>iránya</u> is van.<br><small>Háromszög: takard le, amit keresel!</small></p>')+'<div class="sh-grid"><div class="mini"><b class="mt">🚗 Példa</b>Az autó 2 óra alatt 216 km-t tesz meg.<br>v = 216 km : 2 h = <b>108 km/h</b></div><div class="mini"><b class="mt">🔄 Átváltás (×3,6)</b>m/s → km/h: <b>szorozd 3,6-tal</b><br>km/h → m/s: <b>oszd 3,6-tal</b><br><small>pl. 10 m/s = 36 km/h</small></div></div>',
+      note:'Átlagsebesség = összes út : összes idő. A sebességmérő óra a pillanatnyi sebességet mutatja.' },
+    { n:3, c:3, title:'Egyenletes mozgás',
+      html:row(FIG.graph,'<p>A test <b>egyenlő idők alatt egyenlő utakat</b> tesz meg, a sebessége nem változik. <small>Pl. mozgólépcső, tempomattal haladó autó.</small></p><p><b>Út–idő grafikon:</b> ferde egyenes a 0-ból. <u>Meredekebb = gyorsabb.</u></p><p><b>Sebesség–idő grafikon:</b> vízszintes vonal.</p>') },
+    { n:4, c:4, title:'Változó mozgás, gyorsulás, szabadesés',
+      html:'<p>Ha a sebesség változik, <b>változó mozgásról</b> beszélünk. Ha a sebesség <b>minden másodpercben ugyanannyival</b> nő, a mozgás <b>egyenletesen gyorsuló</b> (pl. lejtőn leguruló golyó).</p><div class="sh-grid"><div class="mini">'+row(FIG.accel,'<b class="mt">Gyorsulás (a)</b>Mennyivel nő a sebesség 1 másodperc alatt.<br><b>a = Δv : Δt</b><br>mértékegysége: <b>m/s²</b><br><small>Δ (delta) = „változás”</small>')+'</div><div class="mini"><b class="mt">Gyorsul vagy lassul?</b>Nő a sebesség → gyorsuló mozgás.<br>Csökken a sebesség → lassuló mozgás.<br>Nem változik → a gyorsulás 0.</div></div>',
+      note:'Szabadesés: ha leejtünk valamit, a Föld vonzása gyorsítja lefelé. Levegő nélkül minden test ugyanolyan gyorsan esik (pingponglabda és gumilabda szinte egyszerre ér le). A nehézségi gyorsulás: g ≈ 10 m/s² (pontosan 9,81).' }
+  ]},
+
+  { type:'sheet', section:'Vázlat', title:'Az erő – vázlat', sub:'Fizika 7. · III. fejezet · 2. oldal', cards:[
+    { n:5, c:5, title:'Mi az erő?',
+      html:row(FIG.force,'<p>Az erő az a hatás, ami <b>megváltoztatja egy test mozgását</b> (elindítja, megállítja, gyorsítja, elfordítja) vagy <b>az alakját</b> (megnyújtja a gumikötelet).</p><p>Jele: <b>F</b> · Mértékegysége: <b>newton (N)</b> · Mérése: <b>rugós erőmérő</b>. Nyíllal rajzoljuk, mert iránya is van.</p>'),
+      note:'1 N kb. akkora erő, amennyivel egy 10 dkg-os (egy kis alma súlyú) testet tartasz a kezedben.' },
+    { n:6, c:2, title:'Newton törvényei',
+      html:'<div class="sh-grid"><div class="mini">'+row(FIG.bus,'<b class="mt">I. törvény – tehetetlenség</b>Minden test „lusta”: marad nyugalomban, vagy megy tovább egyenesen ugyanúgy, amíg valami meg nem változtatja. Ezért dőlünk előre, amikor a busz hirtelen fékez – <b>ezért kell a biztonsági öv!</b>')+'</div><div class="mini"><b class="mt">Tömeg = tehetetlenség mértéke</b>A kislabdát messzebb dobod, mint a 3 kg-os medicinlabdát: a nagyobb tömegű testet nehezebb mozgásba hozni. Jele: <b>m</b>, mértékegysége: <b>kg</b>.</div></div>'+row(FIG.triF,'<p><b>II. törvény:</b> minél nagyobb az erő, annál jobban gyorsul a test; minél nagyobb a tömeg, annál kevésbé.</p><p class="sh-formula">F = m · a</p><p><small>Példa: 2 kg-os kocsit 3 m/s²-tel gyorsítunk → F = 2 · 3 = <b>6 N</b></small></p>') },
+    { n:7, c:3, title:'Erőfajták',
+      html:'<div class="sh-grid"><div class="mini"><b class="mt">Gravitációs erő (F<sub>g</sub>)</b>A Föld mindent lefelé húz.<br><b>F<sub>g</sub> = m · g</b><br><small>2 kg → 20 N</small></div><div class="mini"><b class="mt">Tartóerő (F<sub>t</sub>)</b>Az asztal vagy a kötél felfelé tartja a testet, ezért nem esik le.</div><div class="mini"><b class="mt">Súly (G)</b>Ezzel az erővel nyomja a test a mérleget vagy húzza a kötelet. Mértékegysége: <b>N</b>!</div></div><table class="sh-tbl" style="margin-top:10px"><tr><th></th><th>Tömeg</th><th>Súly</th></tr><tr><td>jele</td><td><b>m</b></td><td><b>G</b></td></tr><tr><td>mértékegysége</td><td><b>kg</b></td><td><b>N</b></td></tr><tr><td>a Holdon</td><td>ugyanannyi</td><td>a hatoda</td></tr></table><p style="margin-top:8px"><b>Súlytalanság:</b> ha semmi nem tartja a testet, és szabadon esik, akkor nincs súlya. Pl. az űrállomáson.</p>' },
+    { n:8, c:6, title:'Fékező erők: súrlódás és közegellenállás',
+      html:'<div class="sh-grid"><div class="mini">'+row(FIG.friction,'<b class="mt">Súrlódás (F<sub>s</sub>)</b>Két felület között lép fel, fékezi a mozgást.<br>Nagyobb, ha jobban <u>összenyomjuk</u> őket, és függ az <u>anyaguktól</u>. A felület nagyságától <u>nem</u> függ.')+'</div><div class="mini"><b class="mt">Közegellenállás</b>A levegő vagy a víz fékezi a benne mozgó testet. A papírlap lassabban esik, mint a gombóc. Az <u>áramvonalas</u> alak (hal, madár, versenyautó) kevésbé fékeződik.</div></div>',
+      note:'Gördülési < csúszási < tapadási súrlódás – ezért könnyebb gurítani, mint tolni (bőrönd kerékkel). Hasznos: cipőtalp, téli gumi, fék. Káros: kopás, nyikorgó ajtó → olajozás, zsírozás.' }
+  ]},
+
   { type:'info', section:'Tanulás', icon:'🏃', title:'Pálya, út, elmozdulás', fig:FIG.path,
     body:'<p>A mozgásnál három fogalmat kell megkülönböztetni:</p><ul><li><mark class="k">Pálya</mark>: a vonal, amin a test végigmegy (mint a nyom a hóban).</li><li><mark class="k">Út</mark> (jele: <b>s</b>): a pálya <b>hossza</b>. Mértékegysége: méter (m).</li><li><mark class="k">Elmozdulás</mark>: egyenes nyíl az indulástól az érkezésig. Általában <b>rövidebb</b>, mint az út.</li></ul><p>Csak <b>egyenes pályán</b> egyenlő az út és az elmozdulás. Ez az egyenes vonalú mozgás.</p>',
     mc:'<p>Ha Minecraftban kanyargó úton mész A-ból B-be, az út hosszú. De ha egyenesen odarepülnél, az elmozdulás a kettő közti egyenes nyíl.</p>',
