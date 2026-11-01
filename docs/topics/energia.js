@@ -45,7 +45,7 @@ var FIG = {
     SV.r(30,130,40,22,'#333')+SV.t(50,148,'szén',11,'middle','#fff')+SV.r(100,130,50,22,'#555')+SV.t(125,148,'kőolaj',11,'middle','#fff')+SV.r(180,130,60,22,'#8fb5d9')+SV.t(210,148,'földgáz',11,'middle','#1b2618')+
     SV.t(260,100,'fosszilis',12)+SV.t(260,115,'(elfogy)',12)),
   heat: (function(){ var d=[['Fa',15,'#a9743a'],['Szalma',17,'#e8d38a'],['Kőszén',30,'#444'],['Benzin',43,'#d6403f']], o='';
-    d.forEach(function(x,i){ var y=14+i*34, w=x[1]*5.2; o+=SV.t(70,y+19,x[0],13,'end')+SV.r(76,y,w,26,x[2])+SV.t(76+w+6,y+19,x[1]+' MJ/kg',12,'start'); });
+    d.forEach(function(x,i){ var y=14+i*34, w=x[1]*4.4; o+=SV.t(70,y+19,x[0],13,'end')+SV.r(76,y,w,26,x[2])+SV.t(76+w+6,y+19,x[1]+' MJ/kg',12,'start'); });
     return SV.svg('Fűtőérték: mennyi energiát ad 1 kg üzemanyag', o); })(),
   power: SV.svg('Teljesítmény: P egyenlő E osztva t-vel',
     SV.r(110,15,100,50,'#ffd23f')+SV.t(160,50,'E',32,'middle','#1b2618')+

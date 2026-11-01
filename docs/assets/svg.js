@@ -1,5 +1,6 @@
 /* Közös, blokkos ábrasegéd */
 window.SV = {
+  fs:function(txt,base,maxw){ var f=Math.floor(maxw/(String(txt).length*0.62)); return Math.max(7,Math.min(base,f)); },
   svg:function(label, inner){ return '<svg viewBox="0 0 320 160" role="img" aria-label="'+label+'" font-family="Lexend,system-ui,sans-serif" font-weight="700">'+inner+'</svg>'; },
   r:function(x,y,w,h,f){ return '<rect x="'+x+'" y="'+y+'" width="'+w+'" height="'+h+'" fill="'+f+'" stroke="#1b2618" stroke-width="3"/>'; },
   t:function(x,y,s,sz,a,f){ return '<text x="'+x+'" y="'+y+'" font-size="'+(sz||13)+'" text-anchor="'+(a||'middle')+'" fill="'+(f||'currentColor')+'">'+s+'</text>'; },
@@ -24,7 +25,7 @@ SV.tri = function(label, top, l, r, cap){
 SV.flow = function(label, items, labels, cap){
   var n=items.length, w=Math.min(84, (300-(n-1)*34)/n), gap=(300-n*w)/(n-1||1), o='';
   items.forEach(function(it,i){ var x=10+i*(w+gap);
-    o+=SV.r(x,50,w,44,it[1])+SV.t(x+w/2,77,it[0],w>70?13:11,'middle','#1b2618');
+    o+=SV.r(x,50,w,44,it[1])+SV.t(x+w/2,77,it[0],SV.fs(it[0],w>70?13:11,w-6),'middle','#1b2618');
     if(i<n-1){ var ax=x+w+3, bx=x+w+gap-3; o+='<line x1="'+ax+'" y1="72" x2="'+(bx-8)+'" y2="72" stroke="#d6403f" stroke-width="4"/><polygon points="'+bx+',72 '+(bx-9)+',65 '+(bx-9)+',79" fill="#d6403f"/>';
       if(labels&&labels[i]) o+=SV.t((ax+bx)/2,44,labels[i],10,'middle'); } });
   return SV.svg(label, o+(cap?SV.t(160,135,cap,12):'')); };
@@ -35,5 +36,5 @@ SV.wave = function(label, amp, periods, cap){
 /* címkézett dobozok sorban */
 SV.boxes = function(label, items, cap){
   var n=items.length, w=(300-(n-1)*8)/n, o='';
-  items.forEach(function(it,i){ var x=10+i*(w+8); o+=SV.r(x,40,w,60,it[1])+SV.t(x+w/2,76,it[0],w>110?13:(w>60?11:(w>45?9:8)),'middle','#1b2618'); });
+  items.forEach(function(it,i){ var x=10+i*(w+8); o+=SV.r(x,40,w,60,it[1])+SV.t(x+w/2,76,it[0],SV.fs(it[0],w>110?13:11,w-8),'middle','#1b2618'); });
   return SV.svg(label,o+(cap?SV.t(160,130,cap,12):'')); };

@@ -9,7 +9,7 @@ var circuit = function(label, bulbs, cap){ /* egyszerű áramkör: elem, kapcsol
   bulbs.forEach(function(x){ o+='<circle cx="'+x+'" cy="120" r="13" fill="#fff3a0" stroke="#1b2618" stroke-width="3"/>'; });
   return SV.svg(label,o+SV.t(160,148,cap||'',12)); };
 var FIG = {
-  charge: SV.boxes('Pozitív, semleges és negatív állapot',[['+  több proton','#ffd9d6'],['0  egyenlő','#e8e8e8'],['–  több elektron','#d4e6fb']],'elektron-többlet vagy hiány okozza az elektromos állapotot'),
+  charge: SV.boxes('Pozitív, semleges és negatív állapot',[['+  több proton','#ffd9d6'],['0  egyenlő','#e8e8e8'],['–  több elektron','#d4e6fb']],'elektrontöbblet vagy -hiány okozza'),
   circuit: circuit('Egyszerű áramkör: áramforrás, kapcsoló, fogyasztó, vezeték',[160],'zárt áramkör: folyik az áram'),
   voltage: SV.svg('Feszültség: az áramforrás töltéseket mozgató képessége',
     SV.r(40,50,60,50,'#ffd23f')+SV.t(70,82,'1,5 V',16,'middle','#1b2618')+SV.t(70,120,'elem',12)+

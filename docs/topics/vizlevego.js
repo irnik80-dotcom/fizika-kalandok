@@ -3,7 +3,7 @@
 var SV = window.SV, fmt = function(n){ return String(n).replace(/\B(?=(\d{3})+(?!\d))/g,' '); };
 var pick = function(a){ return a[Math.floor(Math.random()*a.length)]; };
 var FIG = {
-  heat: SV.boxes('A hő terjedésének három módja',[['hővezetés','#ffd9d6'],['hőáramlás','#fdeeb0'],['hősugárzás','#d5f0cb']],'szilárd, folyadék, gáz · folyadék, gáz · közeg nélkül'),
+  heat: SV.boxes('A hő terjedésének három módja',[['hővezetés','#ffd9d6'],['hőáramlás','#fdeeb0'],['hősugárzás','#d5f0cb']],'mindenben · folyadékban, gázban · közeg nélkül'),
   expand: SV.svg('Hőtágulás: melegítéskor a test kitágul',
     SV.r(30,60,80,26,'#9fd0ff')+SV.t(70,110,'hideg: rövid',12)+SV.fire(70,128)+
     SV.r(150,60,120,26,'#ff9d96')+SV.t(210,110,'meleg: hosszabb',12)+SV.t(140,76,'→',26)),

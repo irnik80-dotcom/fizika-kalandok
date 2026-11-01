@@ -142,3 +142,10 @@ input[type=range]{width:100%;height:44px;accent-color:var(--grass-d)}
 .bin{min-width:0}
 .chip.placed{white-space:normal;max-width:100%;text-align:left;overflow-wrap:anywhere}
 .bins>*,.pairs>*,.memgrid>*{min-width:0}
+
+/* hosszú feliratok törése gombokon és dobozokon */
+.chip{max-width:100%;white-space:normal;text-align:left;overflow-wrap:anywhere;hyphens:auto}
+.opt,.pb,.btn{overflow-wrap:anywhere}
+.item{overflow-wrap:anywhere}
+.fb{overflow-wrap:anywhere}
+.card{min-width:0}

@@ -51,6 +51,23 @@
   function fmt(n) { return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ' '); }
   function parseNum(s) { s = String(s).toLowerCase().replace(/[^0-9.,\-\s ]+$/, '').replace(/[\s ]/g, '').replace(',', '.'); return s === '' ? NaN : Number(s); }
 
+  /* a rajzok kilógó feliratait a rajz szélességéhez igazítja */
+  function clampSvg(root) {
+    root.querySelectorAll('svg').forEach(function (svg) {
+      var W = svg.viewBox.baseVal.width;
+      svg.querySelectorAll('text').forEach(function (tx) {
+        try {
+          var b = tx.getBBox();
+          if (b.x < 3 || b.x + b.width > W - 3) {
+            var a = tx.getAttribute('text-anchor') || 'start', x = +tx.getAttribute('x');
+            var avail = a === 'middle' ? 2 * Math.min(x, W - x) - 6 : a === 'end' ? x - 3 : W - x - 3;
+            var fs = +tx.getAttribute('font-size') || 12;
+            if (avail > 0 && b.width > avail) tx.setAttribute('font-size', Math.max(6.5, fs * avail / b.width).toFixed(1));
+          }
+        } catch (err) {}
+      });
+    });
+  }
   function unlock() { done[pos] = true; nextBtn.disabled = false; }
   function mark(correctFirst) { if (correctFirst) firstTry++; }
 
@@ -85,6 +102,7 @@
     if (s.mc) c.appendChild(el('div', 'mc', '<b>⛏ MINECRAFTBAN</b>' + s.mc));
     if (s.src) c.appendChild(el('p', 'src', '📖 Tankönyv: ' + s.src));
     stage.appendChild(c);
+    clampSvg(c);
   };
 
   R.sim = function (s) {
@@ -123,6 +141,7 @@
     });
     c.insertBefore(opts, fb);
     stage.appendChild(c);
+    clampSvg(c);
   };
 
   R.catItem = function (s) {
