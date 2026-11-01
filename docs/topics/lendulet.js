@@ -21,7 +21,6 @@ var FIG = {
     SV.t(160,152,'I = m · v   (kg·m/s)',12)),
   circle: SV.svg('Körmozgás: a sebesség érintő irányú',
     '<circle cx="110" cy="80" r="50" fill="none" stroke="#8b8f87" stroke-width="3" stroke-dasharray="6 5"/>'+SV.r(148,60,24,24,'#ffd23f')+
-    SV.arrow(160,110,160,'#2f7fd1').replace(/.*/,'')+
     '<line x1="160" y1="72" x2="160" y2="20" stroke="#2f7fd1" stroke-width="5"/><polygon points="160,12 150,30 170,30" fill="#2f7fd1"/>'+SV.t(215,38,'v (érintő irányú)',12,'start')+
     SV.t(215,90,'elengedve:',12,'start')+SV.t(215,106,'repül tovább',12,'start')),
   pendulum: SV.svg('Inga: a lengésidő csak a fonal hosszától függ',
@@ -41,7 +40,6 @@ var FIG = {
     '<polygon points="160,110 140,135 180,135" fill="#555"/><line x1="40" y1="100" x2="280" y2="85" stroke="#a9743a" stroke-width="10"/>'+
     SV.r(240,60,34,26,'#8b8f87')+SV.t(257,78,'nagy',11,'middle','#fff')+'<line x1="50" y1="80" x2="50" y2="120" stroke="#2f7fd1" stroke-width="5"/><polygon points="50,125 40,105 60,105" fill="#2f7fd1"/>'+SV.t(50,150,'kicsi erő',12))
 };
-FIG.circle = FIG.circle.replace(/<line x1="160" y1="110"[^>]*>/,'');
 
 var row = SV.row, mini = SV.mini, grid = SV.grid;
 

@@ -162,10 +162,9 @@ window.LESSON = {
   { type:'calc', section:'Dolgozat', count:4, gens:[
     function(){ var P=pick([100,200,500,1000,2000]), t=pick([2,5,10]);
       return {q:'Egy <b>'+P+' W</b>-os készülék <b>'+t+' órát</b> működik. <b>Mennyi energiát fogyaszt?</b> (kWh)', a:P*t/1000, u:'kWh', tol:0.001, hint:'E = P · t, utána oszd 1000-rel (W → kW).', explain:P+' W · '+t+' h = '+(P*t)+' Wh = '+(P*t/1000)+' kWh.'}; },
-    function(){ var a=pick([60,100]), b=pick([10,15]), t=pick([5,10]);
+    function(){ var a=pick([60,100]), b=pick([10,15]);
       return {q:'Egy <b>'+a+' W</b>-os izzót <b>'+b+' W</b>-os LED-re cserélünk. Hány W-tal fogyaszt kevesebb? (W)', a:a-b, u:'W', hint:'Vond ki a két teljesítményt.', explain:a+' − '+b+' = '+(a-b)+' W.'}; },
-    function(){ var s=pick([71,13,11,5]);
-      return {q:'A háztartás energiájának <b>71%</b> a fűtés. Egy család összesen <b>1000 egység</b> energiát használ. <b>Hány egységet visz a fűtés?</b>', a:710, u:'egység', hint:'1000 · 0,71.', explain:'1000 · 0,71 = 710 egység.'}; },
+    function(){ return {q:'A háztartás energiájának <b>71%</b> a fűtés. Egy család összesen <b>1000 egység</b> energiát használ. <b>Hány egységet visz a fűtés?</b>', a:710, u:'egység', hint:'1000 · 0,71.', explain:'1000 · 0,71 = 710 egység.'}; },
     function(){ var k=pick([2,3,5,10]);
       return {q:'<b>'+k+' kWh</b> hány Wh? (1 kWh = 1000 Wh) (Wh)', a:k*1000, u:'Wh', hint:'Szorozd 1000-rel.', explain:k+' · 1000 = '+fmt(k*1000)+' Wh.'}; }
   ]},

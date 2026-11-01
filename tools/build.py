@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Oldalak előállítása: docs/<téma>.html (GitHub Pages) és önálló, beágyazott változatok (artifacthoz).
 Használat: python3 tools/build.py [kimeneti_mappa_az_artifacthoz]"""
-import os, sys, re
+import os, sys, re, hashlib
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'docs')
 TOPICS = {
   'bevezetes':     ('Bevezetés a fizikába', 'Fizika 7. · I. fejezet'),
@@ -16,6 +16,11 @@ TOPICS = {
   'egijelensegek': ('Égi jelenségek', 'Fizika 7. · X. fejezet'),
 }
 def rd(p): return open(os.path.join(ROOT, p), encoding='utf-8').read()
+def ver(*files):
+    # rövid ujjlenyomat a fájlok tartalmából: változáskor a böngésző új verziót tölt le
+    h = hashlib.md5()
+    for f in files: h.update(rd(f).encode('utf-8'))
+    return h.hexdigest()[:8]
 
 BODY = '''<header class="top">
   <a class="brand" href="index.html">⛏ FIZIKA<br>KALANDOK</a>
@@ -41,8 +46,9 @@ def page(t, inline):
         css = '<style>%s</style>' % rd('assets/style.css')
         js = '<script>%s</script>\n<script>%s</script>\n<script>%s</script>' % (rd('assets/svg.js'), rd('topics/%s.js' % t), rd('assets/engine.js'))
     else:
-        css = '<link rel="stylesheet" href="assets/style.css">'
-        js = '<script src="assets/svg.js"></script>\n<script src="topics/%s.js"></script>\n<script src="assets/engine.js"></script>' % t
+        v = ver('assets/style.css', 'assets/svg.js', 'assets/engine.js', 'topics/%s.js' % t)
+        css = '<link rel="stylesheet" href="assets/style.css?v=%s">' % v
+        js = '<script src="assets/svg.js?v=%s"></script>\n<script src="topics/%s.js?v=%s"></script>\n<script src="assets/engine.js?v=%s"></script>' % (v, t, v, v)
     return '<!doctype html>\n<html lang="hu">\n<head>\n%s%s\n</head>\n<body class="fs-1">\n%s%s\n</body>\n</html>\n' % (head, css, BODY, js)
 
 CARDS = [
@@ -62,7 +68,7 @@ SOON = []
 def index(inline):
     cards = ''.join('<a class="lesson-link" href="%s.html"><div class="card"><div class="big-icon">%s</div><h2>%s</h2><p>%s</p><p class="hint">%s · tanulás, játék, dolgozat gyakorló</p></div></a>\n    ' % (k, i, n, d, c) for k, i, n, d, c in CARDS)
     soon = ''.join('<div class="card soon"><div class="big-icon">🔒</div><h2>%s</h2><p>Hamarosan</p></div>\n    ' % s for s in SOON)
-    css = ('<style>%s</style>' % rd('assets/style.css')) if inline else '<link rel="stylesheet" href="assets/style.css">'
+    css = ('<style>%s</style>' % rd('assets/style.css')) if inline else '<link rel="stylesheet" href="assets/style.css?v=%s">' % ver('assets/style.css')
     return '''<!doctype html>
 <html lang="hu">
 <head>

@@ -181,8 +181,7 @@ window.LESSON = {
       return {q:'Egy bolygó a Naptól <b>'+x+' CsE</b> távolságra kering. <b>Hány millió km ez?</b> (1 CsE = 150 millió km) (millió km)', a:150*x, u:'millió km', hint:'Szorozd 150-nel.', explain:x+' · 150 = '+(150*x)+' millió km.'}; },
     function(){ var c=pick([2,3]);
       return {q:'A Hold fázisai kb. 29 naponként ismétlődnek. <b>Hány nap telik el '+c+' ciklus alatt?</b> (nap)', a:29*c, u:'nap', hint:'Szorozd 29-cel.', explain:c+' · 29 = '+(29*c)+' nap.'}; },
-    function(){ var v=pick([2,3,5,10]);
-      return {q:'A fény a Napból <b>150 000 000 km</b>-t tesz meg a Földig, <b>300 000 km/s</b> sebességgel. <b>Hány másodperc alatt ér ide?</b> (s)', a:500, u:'s', hint:'t = s : v.', explain:'150 000 000 : 300 000 = 500 s, ez kb. 8 perc.'}; },
+    function(){ return {q:'A fény a Napból <b>150 000 000 km</b>-t tesz meg a Földig, <b>300 000 km/s</b> sebességgel. <b>Hány másodperc alatt ér ide?</b> (s)', a:500, u:'s', hint:'t = s : v.', explain:'150 000 000 : 300 000 = 500 s, ez kb. 8 perc.'}; },
     function(){ var d=pick([2,3,5,7]);
       return {q:'Egy év 365 nap. <b>Hány nap telik el '+d+' év alatt?</b> (A szökőnapot most ne vedd figyelembe.) (nap)', a:365*d, u:'nap', hint:'Szorozd 365-tel.', explain:d+' · 365 = '+fmt(365*d)+' nap.'}; }
   ]},

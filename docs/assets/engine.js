@@ -1,4 +1,4 @@
-/* Közös lecke-motor: a tartalom a LESSON objektumból jön (lásd pl. energia-1.html) */
+/* Közös lecke-motor: a tartalom a LESSON objektumból jön (lásd a topics/*.js fájlokat) */
 (function () {
   'use strict';
   var L = window.LESSON;
@@ -29,7 +29,7 @@
   if (!synth) ttsBtn.hidden = true;
   ttsBtn.onclick = function () {
     if (synth.speaking) { synth.cancel(); return; }
-    var t = Array.prototype.map.call(stage.querySelectorAll('.say, h1, h2, p, li'), function (n) { return n.textContent; }).join('. ');
+    var t = (stage.innerText || stage.textContent || '').replace(/\s*\n+\s*/g, '. ');
     var u = new SpeechSynthesisUtterance(t); u.lang = 'hu-HU'; u.rate = .9; synth.speak(u);
   };
 
@@ -44,7 +44,8 @@
   });
   function weight(s) { return s.type === 'tf' ? s.items.length : ['quiz', 'catItem', 'calcItem', 'match', 'drag', 'cloze'].indexOf(s.type) >= 0 ? 1 : 0; }
   var graded = screens.reduce(function (n, s) { return n + weight(s); }, 0);
-  var pos = 0, firstTry = 0, done = {}, wrongs = {};
+  var pos = 0, done = {}, pts = {};
+  function score() { var n = 0; Object.keys(pts).forEach(function (k) { n += Math.min(pts[k], weight(screens[k])); }); return n; }
 
   function el(tag, cls, html) { var e = document.createElement(tag); if (cls) e.className = cls; if (html != null) e.innerHTML = html; return e; }
   function shuffle(a) { a = a.slice(); for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var t = a[i]; a[i] = a[j]; a[j] = t; } return a; }
@@ -74,7 +75,7 @@
     setTimeout(function () { clampOnce(root); }, 600);
   }
   function unlock() { done[pos] = true; nextBtn.disabled = false; }
-  function mark(correctFirst) { if (correctFirst) firstTry++; }
+  function mark(correctFirst) { if (correctFirst && !done[pos]) pts[pos] = (pts[pos] || 0) + 1; }
 
   function go(n) {
     if (synth) synth.cancel();
@@ -302,13 +303,13 @@
       } else { mistakes++; chip.classList.add('wrong'); setTimeout(function () { chip.classList.remove('wrong'); }, 450); fb.className = 'fb no'; fb.textContent = '🤔 Nem oda tartozik. Gondold át!'; }
     }
     shuffle(s.items).forEach(function (it) {
-      var chip = el('button', 'chip', it.t); chip.type = 'button'; chip._it = it;
+      var chip = el('button', 'dchip', it.t); chip.type = 'button'; chip._it = it;
       var sx, sy, moved = false, ghost = null, down = false;
       function binAt(e) { var t = document.elementFromPoint(e.clientX, e.clientY); return t && t.closest ? t.closest('.bin') : null; }
       chip.addEventListener('pointerdown', function (e) { if (chip._done) return; down = true; moved = false; sx = e.clientX; sy = e.clientY; try { chip.setPointerCapture(e.pointerId); } catch (x) {} });
       chip.addEventListener('pointermove', function (e) {
         if (!down) return;
-        if (!moved && Math.hypot(e.clientX - sx, e.clientY - sy) > 8) { moved = true; ghost = chip.cloneNode(true); ghost.className = 'chip ghost'; document.body.appendChild(ghost); chip.style.opacity = .35; }
+        if (!moved && Math.hypot(e.clientX - sx, e.clientY - sy) > 8) { moved = true; ghost = chip.cloneNode(true); ghost.className = 'dchip ghost'; document.body.appendChild(ghost); chip.style.opacity = .35; }
         if (moved) { ghost.style.left = e.clientX + 'px'; ghost.style.top = e.clientY + 'px'; ghost.style.pointerEvents = 'none';
           Object.keys(binEls).forEach(function (k) { binEls[k].classList.remove('hot'); }); var b = binAt(e); if (b) b.classList.add('hot'); }
       });
@@ -320,7 +321,7 @@
       chip.addEventListener('pointercancel', function () { down = false; if (ghost) ghost.remove(); ghost = null; chip.style.opacity = ''; });
       pool.appendChild(chip);
     });
-    bins.addEventListener('click', function (e) { var b = e.target.closest('.bin'); if (b && sel && !sel._done && !e.target.closest('.chip')) drop(sel, b); });
+    bins.addEventListener('click', function (e) { var b = e.target.closest('.bin'); if (b && sel && !sel._done && !e.target.closest('.dchip')) drop(sel, b); });
     c.appendChild(pool); c.appendChild(bins); c.appendChild(fb); stage.appendChild(c);
   };
 
@@ -334,7 +335,7 @@
         sl.onclick = function () { if (solved || !sl._b) return; sl._b.disabled = false; sl._b = null; sl._w = null; sl.innerHTML = '&nbsp;'; sl.className = 'slot'; }; }
     });
     shuffle(s.answers.concat(s.extra || [])).forEach(function (w) {
-      var b = el('button', 'chip', w); b.type = 'button';
+      var b = el('button', 'dchip', w); b.type = 'button';
       b.onclick = function () { if (solved) return; var e = slots.filter(function (x) { return !x._b; })[0]; if (!e) return; e._b = b; e._w = w; e.textContent = w; b.disabled = true; };
       bank.appendChild(b);
     });
@@ -346,7 +347,7 @@
       slots.forEach(function (x, i) { if (x._w === s.answers[i]) x.className = 'slot good'; else { bad++; x.className = 'slot wrong'; } });
       if (!bad) { solved = true; if (!tries) mark(true); finishMsg(fb, '✅ <b>Pontos!</b> ' + (s.explain || '')); }
       else { tries++; fb.className = 'fb no'; fb.textContent = '🤔 A piros helyeken csere kell. Koppints rájuk, és próbáld újra!';
-        slots.forEach(function (x, i) { if (x._w !== s.answers[i]) setTimeout(function () { if (!solved) { x._b.disabled = false; x._b = null; x._w = null; x.innerHTML = '&nbsp;'; x.className = 'slot'; } }, 900); }); }
+        slots.forEach(function (x, i) { if (x._w !== s.answers[i]) setTimeout(function () { if (!solved && x._b) { x._b.disabled = false; x._b = null; x._w = null; x.innerHTML = '&nbsp;'; x.className = 'slot'; } else if (!solved) { x.className = 'slot'; } }, 900); }); }
     };
     c.appendChild(para); c.appendChild(bank); c.appendChild(ok); c.appendChild(fb); stage.appendChild(c);
   };
@@ -371,7 +372,7 @@
   };
 
   R.end = function (s) {
-    var pct = graded ? firstTry / graded : 1; var stars = pct >= .85 ? 3 : pct >= .6 ? 2 : 1;
+    var firstTry = score(); var pct = graded ? firstTry / graded : 1; var stars = pct >= .85 ? 3 : pct >= .6 ? 2 : 1;
     var key = 'fiz-best-' + L.id; var best = Math.max(store.get(key, 0), stars); store.set(key, best);
     var c = el('section', 'card');
     c.appendChild(el('div', 'stars', '★'.repeat(stars) + '<span style="opacity:.25">' + '★'.repeat(3 - stars) + '</span>'));

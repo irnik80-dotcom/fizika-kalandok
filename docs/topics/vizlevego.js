@@ -22,12 +22,11 @@ var FIG = {
     SV.r(60,50,40,80,'#fff')+SV.r(120,50,40,80,'#fff')+SV.r(180,50,40,80,'#fff')+SV.r(60,100,160,30,'#bfe3ff')+
     SV.r(62,70,36,30,'#bfe3ff')+SV.r(122,70,36,30,'#bfe3ff')+SV.r(182,70,36,30,'#bfe3ff')+'<line x1="40" y1="70" x2="250" y2="70" stroke="#2f7fd1" stroke-width="2" stroke-dasharray="5 4"/>'+SV.t(160,150,'egy vízszintes síkban',12)),
   archi: SV.svg('Arkhimédész: a felhajtóerő a kiszorított víz súlya',
-    SV.r(60,40,200,90,'#bfe3ff')+SV.r(130,60,50,40,'#a9743a')+SV.arrow(155,110,155,'#2e8b2e').replace(/.*/,'')+
+    SV.r(60,40,200,90,'#bfe3ff')+SV.r(130,60,50,40,'#a9743a')+
     '<line x1="155" y1="58" x2="155" y2="20" stroke="#2e8b2e" stroke-width="5"/><polygon points="155,12 145,28 165,28" fill="#2e8b2e"/>'+SV.t(200,28,'Ff (felhajtóerő)',12,'start')+
     '<line x1="155" y1="102" x2="155" y2="136" stroke="#d6403f" stroke-width="5"/><polygon points="155,146 145,128 165,128" fill="#d6403f"/>'+SV.t(200,140,'Fg (gravitáció)',12,'start')),
   float: SV.boxes('Úszik, lebeg, elmerül',[['úszik','#9fe07f'],['lebeg','#fdeeb0'],['elmerül','#ff9d96']],'a test sűrűsége: kisebb · egyenlő · nagyobb')
 };
-FIG.archi = FIG.archi.replace(/<line x1="155" y1="110"[^>]*>/,'');
 
 var row = SV.row, mini = SV.mini, grid = SV.grid;
 
