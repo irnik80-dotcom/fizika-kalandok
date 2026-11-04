@@ -11,7 +11,7 @@
 
   /* --- beállítások: betűméret, téma --- */
   var fs = store.get('fiz-fs', 1);
-  function applyFs() { document.body.className = 'fs-' + fs; }
+  function applyFs() { document.body.classList.remove('fs-1', 'fs-2', 'fs-3'); document.body.classList.add('fs-' + fs); }
   applyFs();
   var theme = store.get('fiz-theme', '');
   if (theme) document.documentElement.setAttribute('data-theme', theme);
@@ -42,7 +42,7 @@
       for (var i = 0; i < (s.count || 3); i++) screens.push({ type: 'calcItem', gens: s.gens, section: s.section, idx: i });
     } else screens.push(s);
   });
-  function weight(s) { return s.type === 'tf' ? s.items.length : ['quiz', 'catItem', 'calcItem', 'match', 'drag', 'cloze'].indexOf(s.type) >= 0 ? 1 : 0; }
+  function weight(s) { return s.type === 'tf' ? s.items.length : s.type === 'balance' ? s.eqs.length : ['quiz', 'catItem', 'calcItem', 'match', 'drag', 'cloze'].indexOf(s.type) >= 0 ? 1 : 0; }
   var graded = screens.reduce(function (n, s) { return n + weight(s); }, 0);
   var pos = 0, done = {}, pts = {};
   function score() { var n = 0; Object.keys(pts).forEach(function (k) { n += Math.min(pts[k], weight(screens[k])); }); return n; }
@@ -85,7 +85,7 @@
     $('#chip').textContent = s.section || '';
     $('#barfill').style.width = Math.round(pos / (screens.length - 1) * 100) + '%';
     backBtn.disabled = pos === 0;
-    var interactive = ['quiz', 'catItem', 'calcItem', 'sim', 'match', 'memory', 'tf', 'drag', 'cloze'].indexOf(s.type) >= 0;
+    var interactive = ['quiz', 'catItem', 'calcItem', 'sim', 'match', 'memory', 'tf', 'drag', 'cloze', 'balance'].indexOf(s.type) >= 0;
     nextBtn.disabled = interactive && !done[pos];
     nextBtn.textContent = pos === screens.length - 1 ? 'Kész' : 'Tovább ▶';
     nextBtn.hidden = s.type === 'end';
@@ -350,6 +350,51 @@
         slots.forEach(function (x, i) { if (x._w !== s.answers[i]) setTimeout(function () { if (!solved && x._b) { x._b.disabled = false; x._b = null; x._w = null; x.innerHTML = '&nbsp;'; x.className = 'slot'; } else if (!solved) { x.className = 'slot'; } }, 900); }); }
     };
     c.appendChild(para); c.appendChild(bank); c.appendChild(ok); c.appendChild(fb); stage.appendChild(c);
+  };
+
+  /* ---------- Egyenletrendező: koppintással állítható együtthatók, élő atomszámlálás ---------- */
+  R.balance = function (s) {
+    var c = el('section', 'card'), i = 0;
+    c.appendChild(el('h2', '', s.title));
+    c.appendChild(el('p', 'hint', 'Koppints a színes számokra (1 → 2 → 3 …), amíg mindkét oldalon ugyanannyi atom van!'));
+    var eqBox = el('div', 'eq'), tbl = el('div', 'atoms'), cnt = el('p', 'hint'), fb = feedback(c);
+    var nx = el('button', 'btn center', 'Következő egyenlet ▶'); nx.type = 'button'; nx.hidden = true;
+    var co = [], q, species, btns, solved;
+    function gcd(a, b) { return b ? gcd(b, a % b) : a; }
+    function side(list, off) {
+      var tot = {};
+      list.forEach(function (sp, k) { Object.keys(sp[1]).forEach(function (el_) { tot[el_] = (tot[el_] || 0) + sp[1][el_] * co[off + k]; }); });
+      return tot;
+    }
+    function upd() {
+      var l = side(q.L, 0), r = side(q.R, q.L.length), keys = Object.keys(l);
+      Object.keys(r).forEach(function (k) { if (keys.indexOf(k) < 0) keys.push(k); });
+      var all = true, html = '';
+      keys.forEach(function (k) { var a = l[k] || 0, b = r[k] || 0, ok = a === b; if (!ok) all = false; html += '<span class="at ' + (ok ? 'ok' : 'no') + '">' + k + ': ' + a + ' ' + (ok ? '=' : '≠') + ' ' + b + '</span>'; });
+      tbl.innerHTML = html;
+      if (!all) { fb.className = 'fb'; fb.textContent = 'A pirosan jelölt atomokból még nem egyforma a két oldalon.'; return; }
+      var g = co.reduce(gcd);
+      if (g > 1) { fb.className = 'fb'; fb.textContent = '👍 Egyenlők, de a számok még oszthatók! Keresd a legkisebb egész számokat.'; return; }
+      solved = true; btns.forEach(function (b) { b.disabled = true; }); mark(true);
+      fb.className = 'fb ok'; fb.innerHTML = '✅ <b>Kiegyenlítetted!</b> ' + (q.note || '');
+      if (i < s.eqs.length - 1) nx.hidden = false; else unlock();
+    }
+    function draw() {
+      q = s.eqs[i]; species = q.L.concat(q.R); co = species.map(function () { return 1; }); solved = false; nx.hidden = true; btns = [];
+      cnt.textContent = (i + 1) + ' / ' + s.eqs.length;
+      eqBox.innerHTML = '';
+      species.forEach(function (sp, k) {
+        if (k === q.L.length) eqBox.appendChild(el('span', 'arrow', '→')); else if (k > 0) eqBox.appendChild(el('span', 'plus', '+'));
+        var b = el('button', 'coef', '1'); b.type = 'button'; b.dataset.i = k; b.setAttribute('aria-label', 'Együttható: ' + sp[0]);
+        b.onclick = function () { if (solved) return; co[k] = co[k] % 9 + 1; b.textContent = co[k]; upd(); };
+        btns.push(b);
+        var grp = el('span', 'sp'); grp.appendChild(b); grp.appendChild(el('span', 'fm', sp[0])); eqBox.appendChild(grp);
+      });
+      fb.className = 'fb'; fb.textContent = ''; upd();
+    }
+    nx.onclick = function () { i++; draw(); };
+    [cnt, eqBox, tbl, fb, nx].forEach(function (n) { c.appendChild(n); });
+    stage.appendChild(c); draw();
   };
 
   R.cards = function (s) {

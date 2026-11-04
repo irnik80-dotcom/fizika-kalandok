@@ -43,3 +43,36 @@ SV.boxes = function(label, items, cap){
 SV.row  = function(fig, html){ return '<div class="sh-row"><div class="sh-fig">'+fig+'</div><div class="sh-txt">'+html+'</div></div>'; };
 SV.mini = function(title, html){ return '<div class="mini"><b class="mt">'+title+'</b>'+html+'</div>'; };
 SV.grid = function(){ return '<div class="sh-grid">'+Array.prototype.join.call(arguments,'')+'</div>'; };
+
+/* ===== Kémiai ábrák ===== */
+SV.COL = {H:'#ffffff', C:'#555a63', N:'#4f86e0', O:'#e0524f', S:'#f2c230', Cl:'#6bc26b', Na:'#b07fe0', Mg:'#7fc7a0', Fe:'#b08060', Cu:'#d68a4a', Al:'#b9c2cc', Ca:'#e0a0c0', K:'#c48be0', Si:'#c9b08a', P:'#f0a060', F:'#a8e0a0', Br:'#a0452d', I:'#7a3bbd', He:'#e9e2ff', Ne:'#ffd0b0', Ar:'#d8b8ff'};
+/* Bohr-modell: shells = elektronok héjanként, pl. [2,8,1] */
+SV.atom = function(label, sym, shells, cap, protons){
+  var cx=100, cy=80, o='', R=[24,40,56,72];
+  shells.forEach(function(n,i){
+    o+='<circle cx="'+cx+'" cy="'+cy+'" r="'+R[i]+'" fill="none" stroke="#8b8f87" stroke-width="2"/>';
+    for(var k=0;k<n;k++){ var a=(k/n)*2*Math.PI-Math.PI/2+i*0.5; o+='<circle cx="'+(cx+R[i]*Math.cos(a)).toFixed(1)+'" cy="'+(cy+R[i]*Math.sin(a)).toFixed(1)+'" r="4.5" fill="#2f7fd1" stroke="#1b2618" stroke-width="1.5"/>'; }
+  });
+  o+='<circle cx="'+cx+'" cy="'+cy+'" r="15" fill="'+(SV.COL[sym]||'#ffd23f')+'" stroke="#1b2618" stroke-width="3"/>'+SV.t(cx,cy+5,sym,13,'middle','#1b2618');
+  var T=function(y,txt,base){ return SV.t(196,y,txt,SV.fs(txt,base,118),'start'); };
+  o+=T(48,sym+(protons?' ('+protons+' proton)':''),13)+T(70,shells.join(' · ')+' elektron',12)+T(92,'külső héj: '+shells[shells.length-1]+' e⁻',12)+(cap?T(122,cap,11):'');
+  return SV.svg(label,o); };
+/* molekulamodell: atoms=[[jel,x,y]], bonds=[[i,j,rend]] */
+SV.mol = function(label, atoms, bonds, cap){
+  var o='';
+  bonds.forEach(function(b){ var A=atoms[b[0]], B=atoms[b[1]], n=b[2]||1, dx=B[2]-A[2], dy=A[1]-B[1]; var L=Math.hypot(B[1]-A[1],B[2]-A[2])||1, nx=(B[2]-A[2])/L, ny=-(B[1]-A[1])/L;
+    for(var k=0;k<n;k++){ var off=(k-(n-1)/2)*7; o+='<line x1="'+(A[1]+nx*off)+'" y1="'+(A[2]+ny*off)+'" x2="'+(B[1]+nx*off)+'" y2="'+(B[2]+ny*off)+'" stroke="#1b2618" stroke-width="4"/>'; } });
+  atoms.forEach(function(a){ var r=a[0]==='H'?12:17; o+='<circle cx="'+a[1]+'" cy="'+a[2]+'" r="'+r+'" fill="'+(SV.COL[a[0]]||'#ccc')+'" stroke="#1b2618" stroke-width="3"/>'+SV.t(a[1],a[2]+5,a[0],12,'middle',(a[0]==='H'||a[0]==='S'||a[0]==='Cl')?'#1b2618':'#fff'); });
+  return SV.svg(label,o+(cap?SV.t(160,152,cap,12):'')); };
+/* részecskék: szilárd, folyadék, gáz */
+SV.states = function(label){
+  var o='', pan=function(x,t){ return SV.r(x,25,92,92,'#e9f2ff')+SV.t(x+46,135,t,12); };
+  o+=pan(15,'szilárd')+pan(114,'folyadék')+pan(213,'gáz');
+  for(var i=0;i<4;i++)for(var j=0;j<4;j++) o+='<circle cx="'+(32+i*20)+'" cy="'+(42+j*20)+'" r="7" fill="#2f7fd1" stroke="#1b2618" stroke-width="1.5"/>';
+  [[130,98],[150,100],[170,96],[190,100],[138,80],[160,82],[182,80],[146,62],[170,64],[135,46],[158,48],[184,50]].forEach(function(p){ o+='<circle cx="'+p[0]+'" cy="'+p[1]+'" r="7" fill="#2f7fd1" stroke="#1b2618" stroke-width="1.5"/>'; });
+  [[232,45],[270,60],[245,95],[290,38],[262,105],[225,75],[298,90]].forEach(function(p){ o+='<circle cx="'+p[0]+'" cy="'+p[1]+'" r="7" fill="#2f7fd1" stroke="#1b2618" stroke-width="1.5"/>'; });
+  return SV.svg(label,o); };
+/* kristályrács: ionok váltakozva */
+SV.lattice = function(label, a, b, cap){
+  var o=''; for(var i=0;i<4;i++)for(var j=0;j<4;j++){ var odd=(i+j)%2; o+='<circle cx="'+(60+i*38)+'" cy="'+(30+j*30)+'" r="'+(odd?9:13)+'" fill="'+(odd?a:b)+'" stroke="#1b2618" stroke-width="2"/>'; }
+  return SV.svg(label,o+(cap?SV.t(230,70,cap,12,'start'):'')); };
