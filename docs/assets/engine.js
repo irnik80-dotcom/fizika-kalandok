@@ -42,7 +42,7 @@
       for (var i = 0; i < (s.count || 3); i++) screens.push({ type: 'calcItem', gens: s.gens, section: s.section, idx: i });
     } else screens.push(s);
   });
-  function weight(s) { return s.type === 'tf' ? s.items.length : s.type === 'balance' ? s.eqs.length : ['quiz', 'catItem', 'calcItem', 'match', 'drag', 'cloze'].indexOf(s.type) >= 0 ? 1 : 0; }
+  function weight(s) { return s.type === 'tf' ? s.items.length : s.type === 'balance' ? s.eqs.length : s.type === 'kit' ? s.mols.length : ['quiz', 'catItem', 'calcItem', 'match', 'drag', 'cloze'].indexOf(s.type) >= 0 ? 1 : 0; }
   var graded = screens.reduce(function (n, s) { return n + weight(s); }, 0);
   var pos = 0, done = {}, pts = {};
   function score() { var n = 0; Object.keys(pts).forEach(function (k) { n += Math.min(pts[k], weight(screens[k])); }); return n; }
@@ -85,7 +85,7 @@
     $('#chip').textContent = s.section || '';
     $('#barfill').style.width = Math.round(pos / (screens.length - 1) * 100) + '%';
     backBtn.disabled = pos === 0;
-    var interactive = ['quiz', 'catItem', 'calcItem', 'sim', 'match', 'memory', 'tf', 'drag', 'cloze', 'balance'].indexOf(s.type) >= 0;
+    var interactive = ['quiz', 'catItem', 'calcItem', 'sim', 'match', 'memory', 'tf', 'drag', 'cloze', 'balance', 'kit'].indexOf(s.type) >= 0;
     nextBtn.disabled = interactive && !done[pos];
     nextBtn.textContent = pos === screens.length - 1 ? 'Kész' : 'Tovább ▶';
     nextBtn.hidden = s.type === 'end';
@@ -394,6 +394,46 @@
     }
     nx.onclick = function () { i++; draw(); };
     [cnt, eqBox, tbl, fb, nx].forEach(function (n) { c.appendChild(n); });
+    stage.appendChild(c); draw();
+  };
+
+  /* ---------- Molekulaépítő: atomgolyók számolása a kívánt molekulához ---------- */
+  var ACOL = { H: '#ffffff', C: '#555a63', N: '#4f86e0', O: '#e0524f', S: '#f2c230', Cl: '#6bc26b', Na: '#b07fe0', Mg: '#7fc7a0', Ca: '#e0a0c0', Fe: '#b08060' };
+  R.kit = function (s) {
+    var c = el('section', 'card'), i = 0, atoms = s.atoms || ['H', 'C', 'N', 'O', 'Cl'];
+    c.appendChild(el('h2', '', s.title));
+    c.appendChild(el('p', 'hint', 'Koppints a + és − gombokra, és rakd össze a kért molekula atomjait!'));
+    var cnt = el('p', 'hint'), goal = el('div', 'item'), tray = el('div', 'kit'), pile = el('div', 'pile'), fb = feedback(c);
+    var nx = el('button', 'btn center', 'Következő molekula ▶'); nx.type = 'button'; nx.hidden = true;
+    var m, n, btns, solved;
+    function check() {
+      var diffs = [], ok = true;
+      atoms.forEach(function (a) { var need = m.need[a] || 0, d = need - (n[a] || 0); if (d !== 0) { ok = false; diffs.push(d > 0 ? 'még kell ' + d + ' db ' + a : 'túl sok: ' + (-d) + ' db ' + a); } });
+      pile.innerHTML = '';
+      atoms.forEach(function (a) { for (var k = 0; k < (n[a] || 0); k++) pile.appendChild(el('span', 'atb', a)).style.background = ACOL[a] || '#ccc'; });
+      if (!pile.childNodes.length) pile.appendChild(el('span', 'hint', 'Még üres. Koppints a + gombokra!'));
+      if (!ok) { fb.className = 'fb'; fb.textContent = diffs.join(' · '); return; }
+      solved = true; btns.forEach(function (b) { b.disabled = true; }); mark(true);
+      fb.className = 'fb ok'; fb.innerHTML = '✅ <b>Megvan: ' + m.f + '!</b> ' + (m.note || '');
+      if (i < s.mols.length - 1) nx.hidden = false; else unlock();
+    }
+    function draw() {
+      m = s.mols[i]; n = {}; solved = false; nx.hidden = true; btns = [];
+      cnt.textContent = (i + 1) + ' / ' + s.mols.length;
+      goal.innerHTML = 'Építsd meg: <b>' + m.name + '</b>' + (m.hide ? '' : ' (' + m.f + ')');
+      tray.innerHTML = '';
+      atoms.forEach(function (a) {
+        var rw = el('div', 'krow'), ball = el('span', 'atb big', a); ball.style.background = ACOL[a] || '#ccc';
+        var minus = el('button', 'kbtn', '−'), plus = el('button', 'kbtn', '+'), num = el('b', 'knum', '0');
+        minus.type = plus.type = 'button'; minus.setAttribute('aria-label', a + ' kevesebb'); plus.setAttribute('aria-label', a + ' több'); minus.dataset.a = a; plus.dataset.a = a; plus.dataset.k = '+'; minus.dataset.k = '-';
+        minus.onclick = function () { if (solved) return; n[a] = Math.max(0, (n[a] || 0) - 1); num.textContent = n[a]; check(); };
+        plus.onclick = function () { if (solved) return; n[a] = Math.min(9, (n[a] || 0) + 1); num.textContent = n[a]; check(); };
+        btns.push(minus, plus); [ball, minus, num, plus].forEach(function (x) { rw.appendChild(x); }); tray.appendChild(rw);
+      });
+      fb.className = 'fb'; fb.textContent = ''; check();
+    }
+    nx.onclick = function () { i++; draw(); };
+    [cnt, goal, tray, pile, fb, nx].forEach(function (x) { c.appendChild(x); });
     stage.appendChild(c); draw();
   };
 

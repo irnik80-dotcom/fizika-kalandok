@@ -35,6 +35,18 @@ SUBJECTS = [
         ('atomok',        '⚛️', 'Az atomok felépítése',         'Proton, elektron, periódusos rendszer, mól', '3. fejezet'),
         ('szerkezet',     '💎', 'Szerkezet és tulajdonságok',   'Kötések, molekulák, fémek, ionvegyületek', '4. fejezet'),
         ('atalakulasok',  '🔥', 'A kémiai átalakulások',        'Reakciók, égés, redoxi, sav-bázis, számítások', '5. fejezet'),
+     ],
+     'games': [
+        ('egyenlet',   '⚖️', 'Egyenletrendező',          'Rendezd ki a reakciókat: 17 egyenlet, három szint',                 ['atalakulasok']),
+        ('molekula',   '🧱', 'Molekulaépítő',            'Rakd össze az atomokból a vizet, a metánt, az ammóniát és társaikat', ['modell','szerkezet']),
+        ('periodusos', '⚛️', 'Periódusos rendszer-játék', 'Fedezd fel az elemeket, tanuld meg a vegyjeleket és a főcsoportokat', ['modell','atomok']),
+        ('ionlabor',   '⚡', 'Ionlabor',                  'Alakíts atomot ionná, készíts ionvegyületeket, találd ki a kötést', ['szerkezet']),
+        ('phlabor',    '🎨', 'pH-labor',                  'Indikátorok, savak, bázisok, közömbösítés',                        ['atalakulasok']),
+        ('tuzolto',    '🧯', 'Tűz és redoxi',             'Égéstípusok, tűzoltás, oxidáció és redukció',                      ['atalakulasok']),
+        ('keverek',    '🥣', 'Keverék-szétválasztó',      'Halmazállapotok, oldatok, szétválasztási módszerek',               ['modell','alapismeretek']),
+        ('szamolo',    '🧮', 'Számoló-labor',             'Sűrűség, tömegszázalék, mól, reakciószámítás: végtelen feladat',   ['modell','alapismeretek','atomok','atalakulasok']),
+        ('detektiv',   '🕵️', 'Anyag-detektív',            'Elem, vegyület, keverék, fém, rács: ismerd fel az anyagokat',     ['modell','atomok','szerkezet']),
+        ('vetelkedo',  '🏆', 'Kémia-vetélkedő',           '20 kérdés az egész évfolyam anyagából, véletlen sorrendben',      ['modell','alapismeretek','atomok','szerkezet','atalakulasok']),
      ]},
     # később: matematika, történelem
 ]
@@ -71,8 +83,9 @@ def head(title, depth):
             '<title>%s</title>\n%s\n<link rel="stylesheet" href="%sassets/style.css?v=%s">\n') % (title, FONTS, up, ver('assets/style.css'))
 
 
-def topic_page(subj, slug, title):
-    v = ver('assets/style.css', 'assets/svg.js', 'assets/engine.js', 'topics/%s/%s.js' % (subj, slug))
+def topic_page(subj, slug, title, scripts=None, v=None):
+    v = v or ver('assets/style.css', 'assets/svg.js', 'assets/engine.js', 'topics/%s/%s.js' % (subj, slug))
+    scripts = scripts or ('<script src="../assets/svg.js?v=%s"></script>\n<script src="../topics/%s/%s.js?v=%s"></script>\n<script src="../assets/engine.js?v=%s"></script>' % (v, subj, slug, v, v))
     return '''<!doctype html>
 <html lang="hu">
 <head>
@@ -97,12 +110,20 @@ def topic_page(subj, slug, title):
   <button class="btn alt" id="back" type="button">◀ Vissza</button>
   <button class="btn" id="next" type="button">Tovább ▶</button>
 </div>
-<script src="../assets/svg.js?v=%(v)s"></script>
-<script src="../topics/%(subj)s/%(slug)s.js?v=%(v)s"></script>
-<script src="../assets/engine.js?v=%(v)s"></script>
+%(scripts)s
 </body>
 </html>
-''' % {'title': title, 'site': SITE, 'fonts': FONTS, 'v': v, 'subj': subj, 'slug': slug, 'brand': BRAND}
+''' % {'title': title, 'site': SITE, 'fonts': FONTS, 'v': v, 'subj': subj, 'slug': slug, 'brand': BRAND, 'scripts': scripts}
+
+
+def game_page(subj, slug, title, tops):
+    files = ['assets/style.css', 'assets/svg.js', 'assets/engine.js', 'topics/%s/games/%s.js' % (subj, slug)] + ['topics/%s/%s.js' % (subj, t) for t in tops]
+    v = ver(*files)
+    scripts = '<script src="../assets/svg.js?v=%s"></script>\n' % v
+    for t in tops:
+        scripts += '<script src="../topics/%s/%s.js?v=%s"></script>\n' % (subj, t, v)
+    scripts += '<script src="../topics/%s/games/%s.js?v=%s"></script>\n<script src="../assets/engine.js?v=%s"></script>' % (subj, slug, v, v)
+    return topic_page(subj, 'jatek-' + slug, title, scripts, v)
 
 
 def cards(items, base=''):
@@ -133,13 +154,17 @@ def root_index():
     return page(SITE, 0, body)
 
 
-def subject_index(s, built):
+def subject_index(s, built, games=()):
     items = cards([t for t in s['topics'] if t[0] in built])
     soon = ''.join('<div class="card soon"><div class="big-icon">🔒</div><h2>%s</h2><p>Hamarosan</p></div>\n    ' % t[2]
                    for t in s['topics'] if t[0] not in built)
+    gm = ''
+    if games:
+        gcards = ''.join('<a class="lesson-link" href="jatek-%s.html"><div class="card game"><div class="big-icon">%s</div><h2>%s</h2><p>%s</p><p class="hint">játék · bármikor játszható</p></div></a>\n    ' % (g[0], g[1], g[2], g[3]) for g in games)
+        gm = '  <h2 class="sec">🎮 Játékok</h2>\n  <p class="hint" style="margin:0 0 14px">Önálló játékok: a fejezetektől függetlenül, bármikor játszhatók.</p>\n  <div class="grid">\n    %s</div>\n' % gcards
     body = ('  <p class="hint" style="margin:0 0 6px"><a href="../index.html">← Tantárgyak</a></p>\n'
             '  <h1 style="font-size:1.6em;margin:0 0 6px">%s %s</h1>\n  <p class="hint" style="margin:0 0 18px">%s</p>\n'
-            '  <div class="grid">\n    %s%s</div>\n') % (s['icon'], s['name'], s['desc'], items, soon)
+            '  <h2 class="sec">📚 Fejezetek</h2>\n  <div class="grid">\n    %s%s</div>\n%s') % (s['icon'], s['name'], s['desc'], items, soon, gm)
     return page('%s – %s' % (s['name'], SITE), 1, body, 'fs-1 home subj-' + s['id'])
 
 
@@ -158,8 +183,13 @@ if __name__ == '__main__':
                 continue
             wr('%s/%s.html' % (s['id'], slug), topic_page(s['id'], slug, name))
             built.add(slug)
-        wr('%s/index.html' % s['id'], subject_index(s, built))
-        print(s['id'], len(built), 'oldal')
+        gbuilt = []
+        for g in s.get('games', []):
+            if os.path.exists(os.path.join(ROOT, 'topics', s['id'], 'games', g[0] + '.js')):
+                wr('%s/jatek-%s.html' % (s['id'], g[0]), game_page(s['id'], g[0], g[2], g[4]))
+                gbuilt.append(g)
+        wr('%s/index.html' % s['id'], subject_index(s, built, gbuilt))
+        print(s['id'], len(built), 'fejezet,', len(gbuilt), 'játék')
     wr('index.html', root_index())
     # régi címek (a fizika korábban a főoldalon volt)
     for slug, *_ in SUBJECTS[0]['topics']:

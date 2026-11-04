@@ -13,7 +13,7 @@ A haladás a böngészőben tárolódik, szerver nincs. Az oldal a `docs` mappá
 | Tantárgy | Fejezet | Forrás |
 |---|---|---|
 | Fizika | 10 | Fizika 7–8. tankönyv (OH-FIZ78TA) |
-| Kémia | 5 | Kémia 7–8. tankönyv I. kötet (OH-KEM78TB/I) |
+| Kémia | 5 fejezet + 10 önálló játék | Kémia 7–8. tankönyv I. kötet (OH-KEM78TB/I) |
 | Matematika, Történelem | – | később |
 
 ## Szerkezet
@@ -23,6 +23,7 @@ docs/index.html                 főoldal (tantárgyak)
 docs/<tárgy>/index.html         egy tantárgy fejezetei
 docs/<tárgy>/<fejezet>.html     egy fejezet oldala (a build készíti)
 docs/topics/<tárgy>/*.js        a fejezetek tartalma (ezt kell szerkeszteni)
+docs/topics/<tárgy>/games/*.js  önálló játékcsempék (a fejezetek feladatait használják újra)
 docs/assets/                    közös stílus (style.css), rajzok (svg.js), lecke-motor (engine.js)
 tools/build.py                  az oldalak előállítása
 ```
@@ -35,4 +36,4 @@ A régi, tantárgy nélküli fizika-címek (`/energia.html` stb.) átirányítan
 2. Vedd fel a `tools/build.py` `SUBJECTS` listájába.
 3. Futtasd: `python3 tools/build.py`
 
-A feladattípusok: `sheet` (vázlat), `info`, `sim`, `quiz`, `match`, `memory`, `tf`, `drag`, `cloze`, `calc` (generált számolás), `balance` (egyenletrendező), `cards`, `end`.
+A feladattípusok: `sheet` (vázlat), `info`, `sim`, `quiz`, `match`, `memory`, `tf`, `drag`, `cloze`, `calc` (generált számolás), `balance` (egyenletrendező), `kit` (molekulaépítő), `cards`, `end`.

@@ -76,3 +76,9 @@ SV.states = function(label){
 SV.lattice = function(label, a, b, cap){
   var o=''; for(var i=0;i<4;i++)for(var j=0;j<4;j++){ var odd=(i+j)%2; o+='<circle cx="'+(60+i*38)+'" cy="'+(30+j*30)+'" r="'+(odd?9:13)+'" fill="'+(odd?a:b)+'" stroke="#1b2618" stroke-width="2"/>'; }
   return SV.svg(label,o+(cap?SV.t(230,70,cap,12,'start'):'')); };
+
+/* ===== Játékoldalak: feladatok kiválasztása a fejezetekből ===== */
+SV.scr = function(id, re, type){ var L=(window.ALL||{})[id]; if(!L) return []; return L.screens.filter(function(s){ return (!type||s.type===type) && (!re || re.test(String(s.title||s.q||''))); }); };
+SV.as = function(s, section, extra){ var c={}, k; for(k in s) c[k]=s[k]; c.section=section; if(extra) for(k in extra) c[k]=extra[k]; return c; };
+SV.lesson = function(id, screens){ window.LESSON={ id:id, screens:screens.concat([{type:'end', section:'Kész!'}]) }; };
+SV.intro = function(icon, title, html){ return {type:'info', section:'Játék', icon:icon, title:title, body:html}; };

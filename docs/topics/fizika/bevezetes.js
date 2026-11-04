@@ -174,4 +174,5 @@ window.LESSON = {
   { type:'end', section:'Kész!' }
   ]
 };
+(window.ALL = window.ALL || {})[window.LESSON.id] = window.LESSON;
 })();
